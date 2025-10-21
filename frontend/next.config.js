@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    // This ensures Next.js accepts these domains as valid origins
-    allowedHosts: ['www.daleelbalady.com', 'daleelbalady.com'],
+    // Allow all hosts for Replit environment
+    allowedHosts: true,
   },
   // Removed rewrites - using API route files instead for better control
   // See: src/app/api/offers/route.ts and other API route files
