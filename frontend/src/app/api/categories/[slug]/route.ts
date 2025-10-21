@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const BACKEND_URL = process.env.NODE_ENV === 'development' 
-  ? process.env.BACKEND_API_URL?.replace('/api', '') || 'http://localhost:5000'
+  ? (process.env.BACKEND_API_URL?.replace(/\/api$/, '') || 'http://localhost:5000')
   : 'https://api.daleelbalady.com';
 
 export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {

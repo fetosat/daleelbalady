@@ -1,9 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    // Allow all hosts for Replit environment
-    allowedHosts: true,
-  },
   // Removed rewrites - using API route files instead for better control
   // See: src/app/api/offers/route.ts and other API route files
   async headers() {
@@ -65,6 +61,8 @@ const nextConfig = {
   reactStrictMode: process.env.NODE_ENV !== 'development', // Disable in dev to avoid double-mounting
   // Experimental features
   experimental: {
+    // Allow all hosts for Replit environment (shows warning but works correctly)
+    allowedHosts: true,
     // Development-only optimizations
     ...(process.env.NODE_ENV === 'development' && {
       optimizeCss: false,
