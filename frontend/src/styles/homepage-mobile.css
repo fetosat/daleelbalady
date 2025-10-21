@@ -1,0 +1,244 @@
+/* Homepage Mobile Optimizations */
+
+/* Disable heavy animations on mobile */
+@media (max-width: 768px) {
+  /* Reduce motion for performance */
+  .motion-reduce-mobile * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  /* Disable complex animations */
+  .disable-mobile-animations {
+    animation: none !important;
+  }
+  
+  /* Optimize gradient backgrounds */
+  .mobile-gradient {
+    background: linear-gradient(135deg, #f5f5f4 0%, #e8f5e9 100%) !important;
+  }
+  
+  .dark .mobile-gradient {
+    background: linear-gradient(135deg, #1a1a1a 0%, #1b2e1c 100%) !important;
+  }
+  
+  /* Text size adjustments */
+  .hero-title-mobile {
+    font-size: 1.875rem !important; /* 30px instead of 72px */
+    line-height: 2.25rem !important;
+  }
+  
+  .hero-subtitle-mobile {
+    font-size: 1rem !important; /* 16px */
+    line-height: 1.5rem !important;
+  }
+  
+  /* Touch-friendly buttons */
+  .touch-button {
+    min-height: 48px !important;
+    padding: 12px 24px !important;
+    font-size: 16px !important;
+    touch-action: manipulation;
+  }
+  
+  /* Optimize card layouts */
+  .mobile-card-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  /* Remove floating elements on mobile */
+  .hide-on-mobile {
+    display: none !important;
+  }
+  
+  /* Optimize hero section height */
+  .hero-mobile {
+    min-height: 100vh !important;
+    padding: 2rem 1rem !important;
+  }
+  
+  /* Optimize scroll performance */
+  .smooth-scroll-mobile {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Fix overflow issues */
+  .overflow-x-fix {
+    overflow-x: hidden !important;
+  }
+  
+  /* Better spacing for mobile */
+  .mobile-spacing {
+    padding: 1.5rem 1rem !important;
+  }
+  
+  /* Optimize images */
+  .mobile-image {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Sticky elements optimization */
+  .mobile-sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+  }
+  
+  /* Reduce blur effects */
+  .mobile-no-blur {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  /* Optimize shadows */
+  .mobile-shadow {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 375px) {
+  .hero-title-mobile {
+    font-size: 1.5rem !important; /* 24px for very small screens */
+  }
+  
+  .touch-button {
+    width: 100% !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .mobile-spacing {
+    padding: 1rem 0.75rem !important;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-mobile {
+    min-height: auto !important;
+    padding: 1rem !important;
+  }
+  
+  .hero-title-mobile {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Performance optimizations */
+@media (max-width: 768px) {
+  /* Use CSS containment */
+  .contain-mobile {
+    contain: layout style paint;
+  }
+  
+  /* Hardware acceleration for scrolling */
+  .accelerate-scroll {
+    transform: translateZ(0);
+    will-change: scroll-position;
+  }
+  
+  /* Reduce repaints */
+  .no-hover-mobile:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* RTL support for mobile */
+[dir="rtl"] {
+  @media (max-width: 768px) {
+    .mobile-rtl-fix {
+      text-align: right !important;
+      direction: rtl !important;
+    }
+    
+    .mobile-spacing-rtl {
+      padding-right: 1rem !important;
+      padding-left: 1rem !important;
+    }
+  }
+}
+
+/* Loading states for mobile */
+@media (max-width: 768px) {
+  .skeleton-mobile {
+    animation: skeleton-loading 1s ease-in-out infinite;
+  }
+  
+  @keyframes skeleton-loading {
+    0% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.6;
+    }
+  }
+}
+
+/* Fix for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  .ios-fix {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  
+  /* Fix for iOS input zoom */
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+  
+  /* Fix for iOS bounce scrolling */
+  .ios-scroll-fix {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+  }
+}
+
+/* Android specific fixes */
+@media (max-width: 768px) {
+  /* Fix for Android Chrome address bar */
+  .full-height-mobile {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Fix for Android keyboard */
+  .keyboard-fix {
+    position: relative !important;
+  }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 768px) {
+  /* Better focus indicators */
+  *:focus-visible {
+    outline: 3px solid #10b981 !important;
+    outline-offset: 2px !important;
+  }
+  
+  /* Skip links */
+  .skip-link:focus {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 9999 !important;
+    padding: 1rem !important;
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Print styles for mobile */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break {
+    page-break-after: always;
+  }
+}

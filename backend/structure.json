@@ -1,0 +1,194 @@
+{
+  "type": "object",
+  "properties": {
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string",
+                "enum": [
+                  "CUSTOMER",
+                  "PROVIDER",
+                  "SHOP_OWNER"
+                ]
+              }
+            },
+            "propertyOrdering": [
+              "id",
+              "name",
+              "email",
+              "phone",
+              "role"
+            ],
+            "required": [
+              "name",
+              "phone",
+              "role"
+            ]
+          },
+          "shop": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "address_ar": {
+                "type": "string"
+              },
+              "address_en": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "propertyOrdering": [
+              "id",
+              "name",
+              "description",
+              "phone",
+              "city",
+              "address_ar",
+              "address_en",
+              "tags"
+            ],
+            "required": [
+              "name",
+              "phone",
+              "address_en"
+            ]
+          },
+          "service": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name_ar": {
+                "type": "string"
+              },
+              "name_en": {
+                "type": "string"
+              },
+              "description_ar": {
+                "type": "string"
+              },
+              "description_en": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "category_id": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "price": {
+                "type": "number"
+              }
+            },
+            "propertyOrdering": [
+              "id",
+              "name_ar",
+              "name_en",
+              "description_ar",
+              "description_en",
+              "phone",
+              "category_id",
+              "tags",
+              "price"
+            ],
+            "required": [
+              "name_en",
+              "description_en",
+              "category_id"
+            ]
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "author": {
+                  "type": "string"
+                },
+                "rating": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                "comment": {
+                  "type": "string"
+                }
+              },
+              "propertyOrdering": [
+                "author",
+                "rating",
+                "comment"
+              ],
+              "required": [
+                "author",
+                "rating",
+                "comment"
+              ]
+            }
+          }
+        },
+        "propertyOrdering": [
+          "user",
+          "shop",
+          "service",
+          "reviews"
+        ],
+        "required": [
+          "user",
+          "shop",
+          "service"
+        ]
+      }
+    }
+  },
+  "propertyOrdering": [
+    "entries"
+  ],
+  "required": [
+    "entries"
+  ]
+}

@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment variables - NEVER COMMIT
+.env
+.env.local
+.env.production
+.env.development
+.env.*.local
+
+# Build outputs
+dist/
+build/
+backend/
+
+# Prisma
+/generated/prisma
+/prisma/migrations
+
+# Uploads and temporary files
+uploads/
+/scripts/out
+logs/
+*.log
+*.pid
+*.seed
+
+# IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+coverage/
+.nyc_output/
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.venv
+
+# Secrets (extra safety)
+*.pem
+*.key
+*.cert
+secrets/

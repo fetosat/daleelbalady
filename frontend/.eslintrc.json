@@ -1,0 +1,27 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "react-hooks/exhaustive-deps": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/app/admin/**/*",
+        "src/components/admin/**/*",
+        "src/components/AdvancedSearch.tsx",
+        "src/components/MapView.tsx",
+        "src/components/UserProfile.tsx",
+        "src/app/product/**/*",
+        "src/components/listing/**/*",
+        "src/components/ListingViews.tsx"
+      ],
+      "rules": {
+        "@next/next/no-img-element": "off"
+      }
+    }
+  ]
+}

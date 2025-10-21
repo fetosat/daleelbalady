@@ -1,0 +1,479 @@
+{
+  "entries": [
+    {
+      "user": {
+        "name": "Dr. Ahmed Hamza",
+        "phone": "+201270486448",
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Ahmed Hamza Clinic",
+        "description": "Consultant in Endocrinology, Diabetes, and Internal Medicine. Provides diagnosis and treatment for a variety of medical conditions.",
+        "phone": "+201270486448",
+        "city": "Kom Hamada",
+        "address_en": "Fayad Medical Tower, beside the City Council, Kom Hamada",
+        "address_ar": "برج فياض الطبي - بجوار مجلس المدينة, كوم حمادة",
+        "tags": ["Internal Medicine", "Endocrinology", "Diabetes", "Doctor", "Clinic"]
+      },
+      "service": {
+        "name_en": "Internal Medicine Consultation",
+        "name_ar": "كشف باطنة",
+        "embeddingText": "Internal Medicine Consultation Consultant in Endocrinology, Diabetes, and Internal Medicine. internal medicine, endocrinology, diabetes, consultation",
+        "description_en": "Consultation with Dr. Ahmed Hamza, a specialist in internal medicine, endocrinology, and diabetes.",
+        "description_ar": "كشف مع الدكتور أحمد حمزة، استشاري أمراض الغدد الصماء والسكر وأمراض الباطنة.",
+        "phone": "+201270486448",
+        "category_id": "Doctors",
+        "sub_category_id": "Internal Medicine",
+        "tags": ["internal medicine", "endocrinology", "diabetes", "consultation"],
+        "price": 250
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Ihab Zidan",
+        "phone": "+201224464030",
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Ihab Zidan Clinic",
+        "description": "Cardiology specialist with over 11 years of experience, treating various heart and vascular diseases.",
+        "phone": "+201224464030",
+        "city": "Kom Hamada",
+        "address_en": "Sidi Omar St., El Saeedi Tower",
+        "address_ar": "ش سيدى عمر _برج الصعيدى",
+        "tags": ["Cardiology", "Heart", "Doctor", "Clinic"]
+      },
+      "service": {
+        "name_en": "Cardiology Consultation",
+        "name_ar": "كشف قلب",
+        "embeddingText": "Cardiology Consultation Cardiology specialist with over 11 years of experience. cardiology, heart disease, consultation, ecg",
+        "description_en": "Consultation with Dr. Ihab Zidan, a specialist in cardiology and vascular diseases. Services include ECG and echocardiogram.",
+        "description_ar": "كشف مع الدكتور إيهاب زيدان، أخصائي أمراض القلب والأوعية الدموية. تشمل الخدمات رسم القلب والإيكو.",
+        "phone": "+201224464030",
+        "category_id": "Doctors",
+        "sub_category_id": "Cardiology",
+        "tags": ["cardiology", "heart disease", "consultation", "ecg"],
+        "price": 300
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Ahmed Abdo",
+        "phone": "+201098064087",
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Ahmed Abdo Clinic",
+        "description": "Cardiology specialist providing diagnosis and treatment for a variety of heart conditions.",
+        "phone": "+201098064087",
+        "city": "Kom Hamada",
+        "address_en": "In front of the City Council, above El Tawheed & El Nour",
+        "address_ar": "امام مجلس المدينة _اعلى التوحيد والنور",
+        "tags": ["Cardiology", "Heart", "Doctor", "Clinic"]
+      },
+      "service": {
+        "name_en": "Heart and Vascular Check-up",
+        "name_ar": "فحص القلب والأوعية الدموية",
+        "embeddingText": "Heart and Vascular Check-up Cardiology specialist providing diagnosis and treatment for a variety of heart conditions. cardiology, heart, vascular, check-up",
+        "description_en": "Comprehensive check-up of heart and vascular system by Dr. Ahmed Abdo.",
+        "description_ar": "فحص شامل للقلب والأوعية الدموية مع دكتور أحمد عبده.",
+        "phone": "+201098064087",
+        "category_id": "Doctors",
+        "sub_category_id": "Cardiology",
+        "tags": ["cardiology", "heart", "vascular", "check-up"],
+        "price": 350
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Ashraf Mohamed Ayyad",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Ashraf Ayyad Pediatric Clinic",
+        "description": "Consultant in Pediatrics and Neonatology.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Pediatrics", "Neonatology", "Children's Health", "Doctor"]
+      },
+      "service": {
+        "name_en": "Pediatric Consultation",
+        "name_ar": "كشف أطفال",
+        "embeddingText": "Pediatric Consultation Consultant in Pediatrics and Neonatology. pediatrics, children, health, check-up, infants",
+        "description_en": "General health check-up for children and infants with Prof. Dr. Ashraf Mohamed Ayyad.",
+        "description_ar": "فحص صحي عام للأطفال وحديثي الولادة مع أ.د/ أشرف محمد عياد.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Pediatrics",
+        "tags": ["pediatrics", "children", "health", "check-up", "infants"],
+        "price": 200
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Mohamed Ahmed El-Ashry",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Mohamed El-Ashry Clinic",
+        "description": "Internal Medicine Specialist. Focus on infectious diseases, and nutrition for diabetes and anemia patients.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Internal Medicine", "Infectious Diseases", "Nutrition", "Doctor"]
+      },
+      "service": {
+        "name_en": "General Internal Medicine Check-up",
+        "name_ar": "فحص باطنة عام",
+        "embeddingText": "General Internal Medicine Check-up Internal Medicine Specialist focusing on infectious diseases and nutrition. internal medicine, general health, nutrition",
+        "description_en": "General health consultation with Dr. Mohamed Ahmed El-Ashry, specializing in internal and infectious diseases.",
+        "description_ar": "استشارة صحية عامة مع دكتور محمد أحمد العشرى أخصائي باطنة والأمراض المعدية.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Internal Medicine",
+        "tags": ["internal medicine", "general health", "nutrition"],
+        "price": 220
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Mohamed Saad Rehan",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Mohamed Rehan Cardiology Clinic",
+        "description": "Cardiology specialist focusing on coronary artery diseases, angina, hypertension, and heart valve diseases.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Cardiology", "Heart", "Hypertension", "Doctor"]
+      },
+      "service": {
+        "name_en": "Advanced Cardiology Care",
+        "name_ar": "رعاية قلب متقدمة",
+        "embeddingText": "Advanced Cardiology Care Cardiology specialist for coronary artery diseases, angina, and hypertension. cardiology, heart, advanced care, hypertension",
+        "description_en": "Specialized consultation for heart conditions with Dr. Mohamed Saad Rehan.",
+        "description_ar": "استشارة متخصصة في أمراض القلب مع دكتور محمد سعد ريحان.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Cardiology",
+        "tags": ["cardiology", "heart", "advanced care", "hypertension"],
+        "price": 320
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Ayman El-Sheikh",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Ayman El-Sheikh Pediatric Clinic",
+        "description": "Pediatric specialist offering general healthcare services for children.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Pediatrics", "Children's Health", "Doctor", "Kids"]
+      },
+      "service": {
+        "name_en": "Children's Health Examination",
+        "name_ar": "فحص صحة الأطفال",
+        "embeddingText": "Children's Health Examination Pediatric specialist offering general healthcare services for children. pediatrics, children, health, examination, kids doctor",
+        "description_en": "Routine check-ups and health examinations for children by Dr. Ayman El-Sheikh.",
+        "description_ar": "فحوصات دورية وفحوصات صحية للأطفال من قبل دكتور أيمن الشيخ.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Pediatrics",
+        "tags": ["pediatrics", "children", "health", "examination", "kids doctor"],
+        "price": 180
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Hamdi Fathi Zahran",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Hamdi Zahran Clinic",
+        "description": "Consultant in Internal Medicine.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Internal Medicine", "Consultant", "Doctor", "Clinic"]
+      },
+      "service": {
+        "name_en": "Internal Medicine Specialist Consultation",
+        "name_ar": "استشارة متخصص باطنة",
+        "embeddingText": "Internal Medicine Specialist Consultation Consultant in Internal Medicine. internal medicine, specialist, consultant, health",
+        "description_en": "Consultation with Dr. Hamdi Fathi Zahran, an experienced internal medicine consultant.",
+        "description_ar": "استشارة مع الدكتور حمدي فتحي زهران استشاري أمراض الباطنة.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Internal Medicine",
+        "tags": ["internal medicine", "specialist", "consultant", "health"],
+        "price": 240
+      },
+      "reviews": []
+    },
+    {
+        "user": {
+            "name": "Dr. Alaa El-Din Mohamed Nassar",
+            "phone": null,
+            "role": "PROVIDER"
+        },
+        "shop": {
+            "name": "Dr. Alaa Nassar Pediatric Clinic",
+            "description": "Pediatric specialist offering healthcare services for children.",
+            "phone": null,
+            "city": "Kom Hamada",
+            "address_en": "Kom Hamada",
+            "address_ar": "كوم حمادة",
+            "tags": [
+                "Pediatrics",
+                "Children",
+                "Health",
+                "Doctor"
+            ]
+        },
+        "service": {
+            "name_en": "Pediatric Care",
+            "name_ar": "رعاية الأطفال",
+            "embeddingText": "Pediatric Care Pediatric specialist offering healthcare services for children. pediatrics, child care, health, doctor",
+            "description_en": "General pediatric care services provided by Dr. Alaa El-Din Mohamed Nassar.",
+            "description_ar": "خدمات رعاية الأطفال العامة يقدمها دكتور علاء الدين محمد نصار.",
+            "phone": null,
+            "category_id": "Doctors",
+            "sub_category_id": "Pediatrics",
+            "tags": [
+                "pediatrics",
+                "child care",
+                "health",
+                "doctor"
+            ],
+            "price": 190
+        },
+        "reviews": []
+    },
+    {
+        "user": {
+            "name": "Dr. Mohamed Ahmed Samy Kahla",
+            "phone": null,
+            "role": "PROVIDER"
+        },
+        "shop": {
+            "name": "Dr. Kahla Clinic",
+            "description": "Professor of Internal Medicine, Hepatology, and Gastroenterology.",
+            "phone": null,
+            "city": "Kom Hamada",
+            "address_en": "Kom Hamada",
+            "address_ar": "كوم حمادة",
+            "tags": [
+                "Internal Medicine",
+                "Hepatology",
+                "Gastroenterology",
+                "Doctor"
+            ]
+        },
+        "service": {
+            "name_en": "Gastroenterology and Liver Consultation",
+            "name_ar": "استشارة جهاز هضمي وكبد",
+            "embeddingText": "Gastroenterology and Liver Consultation Professor of Internal Medicine, Hepatology, and Gastroenterology. internal medicine, liver, stomach, digestion",
+            "description_en": "Consultation for digestive and liver diseases with Prof. Dr. Mohamed Ahmed Samy Kahla.",
+            "description_ar": "استشارة لأمراض الجهاز الهضمي والكبد مع أ.د/ محمد أحمد سامى كحلة.",
+            "phone": null,
+            "category_id": "Doctors",
+            "sub_category_id": "Internal Medicine",
+            "tags": [
+                "internal medicine",
+                "liver",
+                "stomach",
+                "digestion"
+            ],
+            "price": 280
+        },
+        "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Alaa El-Khatib",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Alaa El-Khatib Cardiology Clinic",
+        "description": "Cardiology and vascular diseases specialist.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Cardiology", "Heart", "Vascular", "Doctor", "Clinic"]
+      },
+      "service": {
+        "name_en": "Cardiovascular Disease Consultation",
+        "name_ar": "استشارة أمراض القلب والأوعية الدموية",
+        "embeddingText": "Cardiovascular Disease Consultation Cardiology and vascular diseases specialist. cardiology, heart, blood vessels, health",
+        "description_en": "Consultation with Dr. Alaa El-Khatib for heart and vascular conditions.",
+        "description_ar": "استشارة مع دكتور علاء الخطيب لأمراض القلب والأوعية الدموية.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Cardiology",
+        "tags": ["cardiology", "heart", "blood vessels", "health"],
+        "price": 290
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Hamouda Eid El-Gazar",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Hamouda El-Gazar Clinic for Children",
+        "description": "PhD in Pediatrics, offering specialized care for children.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Pediatrics", "Children", "Doctor", "PhD", "Kids"]
+      },
+      "service": {
+        "name_en": "Specialized Pediatric Consultation",
+        "name_ar": "استشارة أطفال متخصصة",
+        "embeddingText": "Specialized Pediatric Consultation PhD in Pediatrics, offering specialized care for children. pediatrics, specialized care, phd, children health",
+        "description_en": "Specialized pediatric care from Dr. Hamouda Eid El-Gazar.",
+        "description_ar": "رعاية أطفال متخصصة من دكتور حمودة عيد الجزار الحاصل على دكتوراه في طب الأطفال.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Pediatrics",
+        "tags": ["pediatrics", "specialized care", "phd", "children health"],
+        "price": 250
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Qandil Mohamed Haggag",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Qandil Haggag Internal Medicine Clinic",
+        "description": "Internal medicine specialist.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Internal Medicine", "Doctor", "Clinic", "Health"]
+      },
+      "service": {
+        "name_en": "General Medical Examination",
+        "name_ar": "فحص طبي عام",
+        "embeddingText": "General Medical Examination Internal medicine specialist. internal medicine, general check-up, health",
+        "description_en": "A general medical examination by Dr. Qandil Mohamed Haggag, specialist in internal medicine.",
+        "description_ar": "فحص طبي عام مع دكتور قنديل محمد حجاج أخصائي الباطنة.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Internal Medicine",
+        "tags": ["internal medicine", "general check-up", "health"],
+        "price": 210
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Mohamed Farfara",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Mohamed Farfara Clinic",
+        "description": "Specialist in pediatrics, neonatology, and pediatric neurological disabilities.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Pediatrics", "Neonatology", "Neurology", "Children", "Doctor"]
+      },
+      "service": {
+        "name_en": "Pediatric & Neonatal Care",
+        "name_ar": "رعاية الأطفال وحديثي الولادة",
+        "embeddingText": "Pediatric & Neonatal Care Specialist in pediatrics, neonatology, and pediatric neurological disabilities. pediatrics, newborn, neurology, child care",
+        "description_en": "Specialized care for children, newborns, and cases of neurological disabilities with Dr. Mohamed Farfara.",
+        "description_ar": "رعاية متخصصة للأطفال وحديثي الولادة وحالات الإعاقات العصبية للأطفال مع دكتور محمد فرفرة.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Pediatrics",
+        "tags": ["pediatrics", "newborn", "neurology", "child care"],
+        "price": 260
+      },
+      "reviews": []
+    },
+    {
+      "user": {
+        "name": "Dr. Ahmed Zakaria Saber",
+        "phone": null,
+        "role": "PROVIDER"
+      },
+      "shop": {
+        "name": "Dr. Ahmed Saber Cardiology Clinic",
+        "description": "Cardiology specialist.",
+        "phone": null,
+        "city": "Kom Hamada",
+        "address_en": "Kom Hamada",
+        "address_ar": "كوم حمادة",
+        "tags": ["Cardiology", "Heart", "Doctor", "Clinic"]
+      },
+      "service": {
+        "name_en": "Heart Health Screening",
+        "name_ar": "فحص صحة القلب",
+        "embeddingText": "Heart Health Screening Cardiology specialist. cardiology, heart screening, health check",
+        "description_en": "Screening and consultation for heart-related health issues with Dr. Ahmed Zakaria Saber.",
+        "description_ar": "فحص واستشارة للمشاكل الصحية المتعلقة بالقلب مع دكتور أحمد زكريا صابر.",
+        "phone": null,
+        "category_id": "Doctors",
+        "sub_category_id": "Cardiology",
+        "tags": ["cardiology", "heart screening", "health check"],
+        "price": 310
+      },
+      "reviews": []
+    }
+  ],
+  "categories": [
+    {
+      "id": "Doctors",
+      "name": "Doctors",
+      "sub_categories": [
+        {
+          "id": "Internal Medicine",
+          "name": "Internal Medicine"
+        },
+        {
+          "id": "Cardiology",
+          "name": "Cardiology"
+        },
+        {
+          "id": "Pediatrics",
+          "name": "Pediatrics"
+        }
+      ]
+    }
+  ]
+}

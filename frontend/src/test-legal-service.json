@@ -1,0 +1,72 @@
+{
+  "id": "legal-service-test-1",
+  "name": "Ahmed Law Firm",
+  "description": "Expert legal consultation and representation services",
+  "translation": {
+    "name_en": "Ahmed Law Firm",
+    "name_ar": "مكتب المحامي أحمد",
+    "description_en": "Expert legal consultation and representation services in various fields of law",
+    "description_ar": "خدمات استشارات قانونية متخصصة وتمثيل قانوني في مختلف مجالات القانون"
+  },
+  "price": 300,
+  "currency": "EGP",
+  "duration": "60 minutes",
+  "durationMins": 60,
+  "city": "Cairo",
+  "locationLat": 30.0444,
+  "locationLon": 31.2357,
+  "isVerified": true,
+  "verifiedBadge": "Bar Association Certified",
+  "createdAt": "2024-01-15T08:00:00.000Z",
+  "reviews": [],
+  "avgRating": 4.8,
+  "reviewsCount": 95,
+  "design": {
+    "id": "design-legal",
+    "name": "Legal Service",
+    "description": "Professional legal service template",
+    "slug": "legal-services"
+  },
+  "ownerUser": {
+    "id": "lawyer-ahmed-123",
+    "name": "Ahmed Hassan",
+    "profilePic": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    "isVerified": true,
+    "phone": "+20123456789",
+    "email": "ahmed.hassan@lawfirm.com",
+    "bio": "Senior Legal Advisor with 15+ years experience"
+  },
+  "shop": {
+    "id": "law-firm-1",
+    "name": "Hassan Legal Consultancy",
+    "slug": "hassan-legal",
+    "description": "Leading legal services provider in Egypt",
+    "city": "Cairo",
+    "locationLat": 30.0444,
+    "locationLon": 31.2357,
+    "phone": "+20223456789",
+    "isVerified": true
+  },
+  "category": {
+    "en": "Legal Services",
+    "ar": "الخدمات القانونية"
+  },
+  "priority": 5,
+  "filterTags": ["legal", "lawyer", "consultation", "commercial-law", "family-law", "قانوني", "محامي", "استشارات"],
+  "metadata": {
+    "specialty": "Commercial Law & Family Law",
+    "availability": "available",
+    "price": "300 EGP",
+    "isRecommended": true,
+    "isVerified": true,
+    "categoryCode": "legal"
+  },
+  "stats": {
+    "totalBookings": 450,
+    "avgRating": 4.8,
+    "totalReviews": 95,
+    "availability": "Available",
+    "isVerified": true,
+    "memberSince": "2018-06-01"
+  }
+}

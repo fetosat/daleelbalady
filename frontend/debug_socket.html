@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket Debug Test</title>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Socket.io Debug Test</h1>
+    <button onclick="testConnection()">Test Connection</button>
+    <button onclick="sendTestMessage()">Send Test Message</button>
+    <div id="log"></div>
+
+    <script>
+        let socket = null;
+        const log = document.getElementById('log');
+
+        function logMessage(message) {
+            console.log(message);
+            const div = document.createElement('div');
+            div.textContent = new Date().toISOString() + ': ' + message;
+            log.appendChild(div);
+        }
+
+        function testConnection() {
+            socket = io('https://api.daleelbalady.com');
+            
+            socket.on('connect', () => {
+                logMessage('✅ Connected to socket');
+                logMessage('Socket ID: ' + socket.id);
+            });
+
+            socket.on('disconnect', () => {
+                logMessage('❌ Disconnected from socket');
+            });
+
+            socket.onAny((eventName, ...args) => {
+                logMessage('🔔 Event received: ' + eventName);
+                logMessage('Data: ' + JSON.stringify(args, null, 2));
+            });
+
+            socket.on('multi_search_results', (data) => {
+                logMessage('🔍 multi_search_results received!');
+                logMessage('Data: ' + JSON.stringify(data, null, 2));
+            });
+
+            socket.on('search_results', (data) => {
+                logMessage('📨 search_results received!');
+                logMessage('Data: ' + JSON.stringify(data, null, 2));
+            });
+
+            socket.on('ai_message', (data) => {
+                logMessage('💬 ai_message received!');
+                logMessage('Data: ' + JSON.stringify(data, null, 2));
+            });
+        }
+
+        function sendTestMessage() {
+            if (socket) {
+                logMessage('📤 Sending test message...');
+                socket.emit('user_message', {
+                    message: 'عايز طبيب جراح',
+                    userLocation: { lat: 30.0444, lon: 31.2357 }
+                });
+            } else {
+                logMessage('❌ Socket not connected');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+import { useNavigate, Routes, Route, Navigate } from "react-router-dom";
+import { DashboardLayout } from "@/components/layout/DashboardLayout";
+import { useAuth } from "@/lib/auth";
+import AnalyticsPage from "./AnalyticsPage";
+import BookingsPage from "./BookingsPage";
+import ChatPage from "./ChatPage";
+import NotificationsPage from "./NotificationsPage";
+import OrdersPage from "./OrdersPage";
+import ProductsPage from "./ProductsPage";
+import ServicesPage from "../../components/dashboard/ServicesPage";
+import SettingsPage from "../../components/dashboard/SettingsPage";
+import ShopsPage from "../../components/dashboard/ShopsPage";
+import Overview from "../../components/dashboard/Overview";
+import Users from "./Users";
+import Deliveries from "./Deliveries";
+import Reports from "./Reports";
+import AdminDashboard from "./AdminDashboard";
+import CustomerDashboard from "../../components/dashboard/CustomerDashboard";
+import ShopOwnerDashboard from "./ShopOwnerDashboard";
+import ProviderDashboard from "../../components/dashboard/ProviderDashboard";
+import DeliveryDashboard from "./DeliveryDashboard";
+
+function AdminRoute({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  if (user?.role !== 'ADMIN') {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <>{children}</>;
+}
+
+export default function DashboardRoutes() {
+  return (
+    <DashboardLayout>
+      <Routes>
+        <Route index element={<Overview />} />
+        <Route path="analytics" element={<AnalyticsPage />} />
+        <Route path="bookings" element={<BookingsPage />} />
+        <Route path="chat" element={<ChatPage />} />
+        <Route path="notifications" element={<NotificationsPage />} />
+        <Route path="orders" element={<OrdersPage />} />
+        <Route path="products" element={<ProductsPage />} />
+        <Route path="services" element={<ServicesPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="shops" element={<ShopsPage />} />
+        
+        {/* Admin Routes */}
+        <Route path="users" element={
+          <AdminRoute>
+            <Users />
+          </AdminRoute>
+        } />
+        <Route path="deliveries" element={
+          <AdminRoute>
+            <Deliveries />
+          </AdminRoute>
+        } />
+        <Route path="reports" element={
+          <AdminRoute>
+            <Reports />
+          </AdminRoute>
+        } />
+        
+        {/* Redirect any unmatched routes to dashboard home */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </DashboardLayout>
+  );
+}

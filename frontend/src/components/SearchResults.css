@@ -1,0 +1,18 @@
+@keyframes glowGold {
+  0% {
+    box-shadow: 0 0 8px 2px gold, 0 0 16px 4px rgba(255,215,0,0.2);
+    border-color: #FFD700;
+  }
+  100% {
+    box-shadow: 0 0 24px 8px gold, 0 0 48px 16px rgba(255,215,0,0.5);
+    border-color: #FFD700;
+  }
+}
+
+.shadow-gold {
+  box-shadow: 0 0 16px 4px gold, 0 0 32px 8px rgba(255,215,0,0.3) !important;
+}
+
+.animate-glow-gold {
+  animation: glowGold 1.5s ease-in-out infinite alternate;
+}

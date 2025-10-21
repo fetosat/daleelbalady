@@ -1,0 +1,262 @@
+// AI Components Test Suite
+// This file tests all the newly implemented AI features
+
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import CategoryBadge from '@/components/ui/CategoryBadge';
+import PriorityIndicator from '@/components/ui/PriorityIndicator';
+import SearchQualityBadge from '@/components/ui/SearchQualityBadge';
+import AvailabilityStatus from '@/components/ui/AvailabilityStatus';
+import FilterTagsBadge from '@/components/ui/FilterTagsBadge';
+
+// Mock data for testing
+const mockCategory = {
+  en: "Doctor",
+  ar: "طبيب"
+};
+
+const mockFilterTags = ["all", "services", "medical", "recommended", "verified"];
+
+const mockAiSummary = {
+  totalResults: 25,
+  primaryType: "medical",
+  topCategories: ["Medical", "Doctors", "Clinics"],
+  hasRecommended: true,
+  searchQuality: "excellent"
+};
+
+const mockSearchResult = {
+  id: "test-1",
+  entityType: "service",
+  name: "Dr. Ahmed Hassan",
+  translation: {
+    name_en: "Dr. Ahmed Hassan",
+    name_ar: "د. أحمد حسن",
+    description_en: "Experienced cardiologist",
+    description_ar: "طبيب قلب ذو خبرة"
+  },
+  category: mockCategory,
+  priority: 9,
+  filterTags: mockFilterTags,
+  metadata: {
+    specialty: "Cardiology",
+    availability: "Available now",
+    price: "200 EGP",
+    isRecommended: true,
+    isVerified: true
+  },
+  avgRating: 4.8,
+  reviewsCount: 127,
+  isRecommended: true,
+  isVerified: true,
+  city: "Cairo",
+  phone: "+201234567890"
+};
+
+describe('AI Components Test Suite', () => {
+  
+  // Test CategoryBadge component
+  describe('CategoryBadge', () => {
+    test('renders correctly with bilingual support', () => {
+      render(<CategoryBadge category={mockCategory} />);
+      // Should render in English by default
+      expect(screen.getByText('Doctor')).toBeInTheDocument();
+    });
+
+    test('shows appropriate icon for medical category', () => {
+      render(<CategoryBadge category={mockCategory} showIcon={true} />);
+      // Medical category should have stethoscope icon
+      const badge = screen.getByText('Doctor').closest('span');
+      expect(badge).toHaveClass('bg-blue-100');
+    });
+  });
+
+  // Test PriorityIndicator component
+  describe('PriorityIndicator', () => {
+    test('renders bars variant correctly', () => {
+      render(<PriorityIndicator priority={8} variant="bars" showLabel={true} />);
+      expect(screen.getByText('8/10')).toBeInTheDocument();
+    });
+
+    test('renders badge variant for high priority', () => {
+      render(<PriorityIndicator priority={9} variant="badge" />);
+      expect(screen.getByText('Excellent Match')).toBeInTheDocument();
+    });
+
+    test('handles edge cases for priority values', () => {
+      render(<PriorityIndicator priority={15} variant="bars" />); // Should cap at 10
+      render(<PriorityIndicator priority={-5} variant="bars" />); // Should floor at 1
+      // Component should handle invalid values gracefully
+    });
+  });
+
+  // Test SearchQualityBadge component
+  describe('SearchQualityBadge', () => {
+    test('renders excellent quality correctly', () => {
+      render(<SearchQualityBadge quality="excellent" />);
+      expect(screen.getByText('Excellent Results')).toBeInTheDocument();
+    });
+
+    test('shows appropriate icon for quality level', () => {
+      render(<SearchQualityBadge quality="good" showIcon={true} />);
+      expect(screen.getByText('Good Results')).toBeInTheDocument();
+    });
+
+    test('handles unknown quality levels', () => {
+      render(<SearchQualityBadge quality="unknown-quality" />);
+      // Should fallback to basic configuration
+    });
+  });
+
+  // Test AvailabilityStatus component
+  describe('AvailabilityStatus', () => {
+    test('renders available status correctly', () => {
+      render(<AvailabilityStatus availability="Available now" />);
+      expect(screen.getByText('Available Now')).toBeInTheDocument();
+    });
+
+    test('renders closed status correctly', () => {
+      render(<AvailabilityStatus availability="Closed" />);
+      expect(screen.getByText('Closed')).toBeInTheDocument();
+    });
+
+    test('handles boolean isOpen prop', () => {
+      render(<AvailabilityStatus isOpen={true} />);
+      expect(screen.getByText('Open')).toBeInTheDocument();
+    });
+  });
+
+  // Test FilterTagsBadge component
+  describe('FilterTagsBadge', () => {
+    test('renders filter tags correctly', () => {
+      render(<FilterTagsBadge filterTags={mockFilterTags} maxDisplay={3} />);
+      expect(screen.getByText('Services')).toBeInTheDocument();
+      expect(screen.getByText('Medical')).toBeInTheDocument();
+      expect(screen.getByText('Recommended')).toBeInTheDocument();
+    });
+
+    test('shows remaining count when maxDisplay exceeded', () => {
+      render(<FilterTagsBadge filterTags={mockFilterTags} maxDisplay={2} />);
+      expect(screen.getByText('+3')).toBeInTheDocument(); // 5 tags - 2 displayed = +3
+    });
+
+    test('filters out "all" tag', () => {
+      render(<FilterTagsBadge filterTags={["all", "services", "recommended"]} />);
+      expect(screen.queryByText('All')).not.toBeInTheDocument();
+      expect(screen.getByText('Services')).toBeInTheDocument();
+    });
+  });
+});
+
+// Integration test for MultiEntitySearchResults
+describe('MultiEntitySearchResults Integration', () => {
+  const mockProps = {
+    searchResults: [mockSearchResult],
+    onSelectResult: jest.fn(),
+    chatQuery: "find a cardiologist",
+    Message: "Found excellent results for your search",
+    onChatQueryChange: jest.fn(),
+    onChatSubmit: jest.fn(),
+    dynamicFilters: [
+      {
+        id: "all",
+        name: { en: "All", ar: "الكل" },
+        count: 25,
+        icon: "🔍",
+        order: 0
+      },
+      {
+        id: "medical",
+        name: { en: "Medical", ar: "طبي" },
+        count: 15,
+        icon: "⚕️",
+        order: 1
+      }
+    ],
+    processedResults: [mockSearchResult],
+    aiSummary: mockAiSummary
+  };
+
+  test('renders with AI summary correctly', () => {
+    const { MultiEntitySearchResults } = require('@/components/MultiEntitySearchResults');
+    render(<MultiEntitySearchResults {...mockProps} />);
+    
+    expect(screen.getByText('Found excellent results for your search')).toBeInTheDocument();
+    expect(screen.getByText('Excellent Results')).toBeInTheDocument(); // SearchQualityBadge
+    expect(screen.getByText('Medical')).toBeInTheDocument(); // Top category
+  });
+
+  test('displays AI-enhanced result cards', () => {
+    const { MultiEntitySearchResults } = require('@/components/MultiEntitySearchResults');
+    render(<MultiEntitySearchResults {...mockProps} />);
+    
+    // Should show category badge
+    expect(screen.getByText('Doctor')).toBeInTheDocument();
+    
+    // Should show specialty
+    expect(screen.getByText('Cardiology')).toBeInTheDocument();
+    
+    // Should show availability
+    expect(screen.getByText('Available Now')).toBeInTheDocument();
+    
+    // Should show priority indicator
+    // (Priority bars would be present but harder to test without visual inspection)
+  });
+
+  test('handles dynamic filters correctly', () => {
+    const { MultiEntitySearchResults } = require('@/components/MultiEntitySearchResults');
+    render(<MultiEntitySearchResults {...mockProps} />);
+    
+    expect(screen.getByText('All (25)')).toBeInTheDocument();
+    expect(screen.getByText('Medical (15)')).toBeInTheDocument();
+  });
+});
+
+// Visual regression test data
+export const testScenarios = {
+  categoryBadges: [
+    { category: { en: "Doctor", ar: "طبيب" } },
+    { category: { en: "Restaurant", ar: "مطعم" } },
+    { category: { en: "Mechanic", ar: "ميكانيكي" } },
+    { category: { en: "Beauty Salon", ar: "صالون تجميل" } }
+  ],
+  
+  priorityLevels: [
+    { priority: 10, label: "Excellent" },
+    { priority: 8, label: "High" },
+    { priority: 5, label: "Good" },
+    { priority: 3, label: "Fair" },
+    { priority: 1, label: "Low" }
+  ],
+  
+  searchQualities: [
+    "excellent",
+    "good", 
+    "fair",
+    "basic",
+    "poor"
+  ],
+  
+  availabilityStates: [
+    "Available now",
+    "Busy",
+    "Closed",
+    "Open 24/7"
+  ],
+  
+  filterTagsExamples: [
+    ["medical", "recommended", "verified"],
+    ["restaurants", "popular", "top_rated"],
+    ["automotive", "services", "certified"],
+    ["beauty", "salon", "trending", "verified", "popular"]
+  ]
+};
+
+console.log('✅ AI Components Test Suite Ready');
+console.log('📊 Test Data:', {
+  categoryBadges: testScenarios.categoryBadges.length,
+  priorityLevels: testScenarios.priorityLevels.length,
+  searchQualities: testScenarios.searchQualities.length,
+  availabilityStates: testScenarios.availabilityStates.length,
+  filterTagsExamples: testScenarios.filterTagsExamples.length
+});

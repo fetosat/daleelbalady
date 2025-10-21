@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daleel Balady API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border-left: 3px solid #ccc; }
+        .success { border-color: #4CAF50; background-color: #f1f8e9; }
+        .error { border-color: #f44336; background-color: #ffebee; }
+        .loading { border-color: #ff9800; background-color: #fff3e0; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Daleel Balady API Connectivity Test</h1>
+    
+    <button onclick="testAll()">Run All Tests</button>
+    <button onclick="clearResults()">Clear Results</button>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'https://api.daleelbalady.com/api';
+        const resultsDiv = document.getElementById('results');
+
+        function addResult(title, status, message, details = null) {
+            const div = document.createElement('div');
+            div.className = `test ${status}`;
+            div.innerHTML = `
+                <strong>${title}</strong><br>
+                <span>${message}</span>
+                ${details ? `<pre style="margin-top: 10px; font-size: 12px;">${details}</pre>` : ''}
+            `;
+            resultsDiv.appendChild(div);
+        }
+
+        function clearResults() {
+            resultsDiv.innerHTML = '';
+        }
+
+        async function testHealthEndpoint() {
+            addResult('Health Check', 'loading', 'Testing /api/health...');
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.text();
+                
+                if (response.ok) {
+                    addResult('Health Check', 'success', 
+                        `✅ Health endpoint working (${response.status})`,
+                        data.substring(0, 200)
+                    );
+                    return true;
+                } else {
+                    addResult('Health Check', 'error', 
+                        `❌ Health endpoint returned ${response.status}`,
+                        data.substring(0, 200)
+                    );
+                    return false;
+                }
+            } catch (error) {
+                addResult('Health Check', 'error', 
+                    `❌ Network error: ${error.message}`,
+                    `This usually means:
+1. Backend server is not running
+2. Wrong API URL
+3. CORS/network issue`
+                );
+                return false;
+            }
+        }
+
+        async function testOffersEndpoint() {
+            addResult('Offers API', 'loading', 'Testing /api/offers...');
+            try {
+                const response = await fetch(`${API_BASE}/offers`);
+                const data = await response.text();
+                
+                if (response.ok) {
+                    try {
+                        const json = JSON.parse(data);
+                        addResult('Offers API', 'success', 
+                            `✅ Offers endpoint working (${json.offers?.length || 0} offers)`,
+                            JSON.stringify(json, null, 2).substring(0, 500) + '...'
+                        );
+                        return true;
+                    } catch {
+                        addResult('Offers API', 'success', 
+                            `✅ Offers endpoint responding but not JSON`,
+                            data.substring(0, 200)
+                        );
+                        return true;
+                    }
+                } else {
+                    addResult('Offers API', 'error', 
+                        `❌ Offers endpoint returned ${response.status}`,
+                        data.substring(0, 200)
+                    );
+                    return false;
+                }
+            } catch (error) {
+                addResult('Offers API', 'error', 
+                    `❌ Network error: ${error.message}`,
+                    'Offers endpoint is not accessible'
+                );
+                return false;
+            }
+        }
+
+        async function testCORS() {
+            addResult('CORS Test', 'loading', 'Testing CORS configuration...');
+            try {
+                // Try a simple OPTIONS request
+                const response = await fetch(`${API_BASE}/health`, {
+                    method: 'OPTIONS',
+                });
+                
+                addResult('CORS Test', 'success', 
+                    `✅ CORS preflight successful`,
+                    `CORS headers: ${response.headers.get('access-control-allow-origin') || 'None'}`
+                );
+                return true;
+            } catch (error) {
+                addResult('CORS Test', 'error', 
+                    `❌ CORS issue: ${error.message}`,
+                    'Backend may not be configured for cross-origin requests'
+                );
+                return false;
+            }
+        }
+
+        async function testAll() {
+            clearResults();
+            console.log('🚀 Starting API connectivity tests...');
+            
+            const healthOk = await testHealthEndpoint();
+            await new Promise(resolve => setTimeout(resolve, 500)); // Small delay
+            
+            if (healthOk) {
+                await testOffersEndpoint();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                await testCORS();
+            } else {
+                addResult('Skipped Tests', 'error', 
+                    'Skipping other tests since health check failed'
+                );
+            }
+            
+            console.log('✅ API connectivity tests completed');
+        }
+
+        // Auto-run tests on page load
+        window.onload = () => {
+            setTimeout(testAll, 1000);
+        };
+    </script>
+</body>
+</html>

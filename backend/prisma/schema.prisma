@@ -1,0 +1,1528 @@
+// schema.prisma
+// Prisma schema for Daleel Balady
+// Adjust the `provider` and `url` in datasource as needed.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// -------------------- Enums --------------------
+
+enum Role {
+  GUEST
+  CUSTOMER
+  PROVIDER // service providers who can upgrade to have products
+  DELIVERY // delivery personnel
+  ADMIN
+}
+
+// Provider subscription tiers
+enum ProviderPlanType {
+  BASIC_FREE // Free listing only
+  BOOKING_BASIC // EGP 1,000/year - booking functionality
+  PRODUCTS_PREMIUM // EGP 2,000/year - products + booking
+  TOP_BRONZE // EGP 10,000/year - top 10 priority
+  TOP_SILVER // EGP 20,000/year - top 5 priority
+  TOP_GOLD // EGP 30,000/year - top 3 priority + badge + video
+}
+
+// User subscription tiers
+enum UserPlanType {
+  FREE // No discounts
+  MEDICAL_CARD // Medical discounts only
+  ALL_INCLUSIVE // All category discounts
+}
+
+// New user plan types for the guide system
+enum GuidePlanType {
+  FREE // No access to discounts or chat
+  SINGLE_CATEGORY // Access to one category guide
+  ALL_CATEGORIES // Access to all category guides
+}
+
+// Offer levels from basic to exclusive
+enum OfferLevel {
+  BASIC
+  STANDARD
+  PREMIUM
+  EXCLUSIVE
+}
+
+// Offer target types (services or products)
+enum OfferTargetType {
+  SERVICE
+  PRODUCT
+  BOTH
+}
+
+// Reaction types for reviews
+enum ReactionType {
+  LIKE
+  DISLIKE
+  HELPFUL
+  NOT_HELPFUL
+}
+
+// Cart item types
+enum CartItemType {
+  SERVICE
+  PRODUCT
+}
+
+// Discount application types
+enum DiscountType {
+  FIELD_REPRESENTATIVE // 20% discount
+  MATCHING_DISCOUNT // Equal to provider discount offered
+  INTRODUCTORY // Free trial period
+}
+
+enum BusinessApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  REQUIRES_DOCUMENTS
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PACKED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURNED
+}
+
+enum DeliveryStatus {
+  PENDING
+  PICKED_UP
+  IN_TRANSIT
+  DELIVERED
+  FAILED
+}
+
+enum CouponTargetType {
+  SERVICE
+  PRODUCT
+  SHOP
+  GLOBAL
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  WALLET
+  ONLINE
+}
+
+enum WeekDay {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+// -------------------- Enums --------------------
+enum NotificationType {
+  SYSTEM
+  BOOKING
+  ORDER
+  CHAT
+  REVIEW
+  PRODUCT
+  COUPON
+}
+
+// -------------------- Models --------------------
+
+// -------------------- Notifications --------------------
+model Notification {
+  id       String           @id @default(uuid())
+  type     NotificationType @default(SYSTEM)
+  title    String
+  message  String
+  metadata Json?
+  isRead   Boolean          @default(false)
+
+  // Relations
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  shop   Shop?   @relation(fields: [shopId], references: [id])
+  shopId String?
+
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+}
+
+// Users: customers, providers, shop owners, delivery, admin, guest
+model User {
+  id            String    @id @default(uuid())
+  vid           String?   @unique // optional external id (vector id etc.)
+  name          String
+  email         String?   @unique
+  password      String?
+  phone         String?
+  profilePic    String?
+  coverImage    String?
+  role          Role      @default(CUSTOMER)
+  bio           String?
+  isVerified    Boolean   @default(false)
+  verifiedAt    DateTime?
+  verifiedBadge String? // e.g., "gold", "verified_business", etc.
+  
+  // Social login fields
+  googleId      String?   @unique
+  facebookId    String?   @unique
+  authProvider  String?   // "local", "google", "facebook"
+
+  //design system
+  design    design?   @relation(fields: [designId], references: [id])
+  designId  String?
+
+  // Relations
+  services        Service[]      @relation("UserServices")
+  shops           Shop[]         @relation("UserShops")
+  products        Product[]      @relation("UserProducts")
+  bookings        Booking[]
+  reviews         Review[] // Reviews written by this user
+  reviewsReceived Review[]       @relation("UserReviews") // Reviews received by this user
+  chats           Chat[]         @relation("UserChats") // chats the user participates in (owner)
+  orders          Order[]        @relation("UserOrders")
+  coupons         Coupon[]       @relation("UserCoupons") // coupons owned/issued to user
+  notifications   Notification[]
+
+  // New subscription relations
+  providerSubscription ProviderSubscription? @relation("ProviderSubscriptions")
+  userSubscription     UserSubscription?     @relation("UserSubscriptions")
+
+  // Business application relation
+  businessApplications BusinessApplication[]
+
+  chatParticipants Chat[]        @relation("ChatParticipants")
+  files            File[]        @relation("UserFiles")
+  searchUsages     SearchUsage[] @relation("UserSearchUsages")
+  searchCaches     SearchCache[] // search caches created by this user
+  payments         Payment[] // payment transactions
+
+  // New analytics and interaction tracking
+  analytics       UserAnalytics?
+  cart            Cart?
+  reviewReactions ReviewReaction[]
+  sentMessages    Message[]        @relation("MessageSender")
+  receivedChats   Chat[]           @relation("ChatRecipient")
+
+  // New guide plan system
+  guidePlan      UserGuidePlan?     @relation("UserGuidePlans")
+  familyMemberOf PlanFamilyMember[] @relation("FamilyMemberUsers")
+
+  // Offer system relations
+  createdOffers Offer[]      @relation("ProviderOffers")
+  offerUsages   OfferUsage[] @relation("UserOfferUsages")
+
+  // PIN verification relations
+  pinVerifications PinVerification[] @relation("UserPinVerifications")
+
+  // Favorites
+  favoriteShops UserFavorite[] @relation("UserFavorites")
+
+  // Payment methods
+  savedPaymentMethods SavedPaymentMethod[]
+  
+  // Family system relations
+  familyHead              Family?             @relation("FamilyHead")
+  familyMemberships       FamilyMember[]      @relation("FamilyMemberships")
+  sentFamilyInvitations   FamilyInvitation[]  @relation("SentFamilyInvitations")
+  acceptedFamilyInvitations FamilyInvitation[] @relation("AcceptedFamilyInvitations")
+  
+  // Referral system relations
+  referralsSent     Referral[]   @relation("ReferralsSent")
+  referralsReceived Referral?    @relation("ReferralsReceived")
+  
+  // Points and rewards
+  userPoints UserPoints? @relation("UserPointsBalance")
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+}
+
+// Shops (a shop can have many services & products)
+model Shop {
+  id          String            @id @default(uuid())
+  vid         String?           @unique
+  slug        String?           @unique
+  owner       User              @relation("UserShops", fields: [ownerId], references: [id])
+  ownerId     String
+  name        String
+  description String?           @db.Text
+  phone       String?
+  email       String?
+  design      design?           @relation(fields: [designId], references: [id])
+  designId    String?
+  website     String?
+  city        String?
+  address     shop_translation? @relation(fields: [adressId], references: [id])
+  locationLat Float? // geo location
+  locationLon Float?
+
+  // Images
+  coverImage    String? // Cover banner image
+  logoImage     String? // Shop logo
+  galleryImages String? @db.Text // JSON array of image URLs
+
+  isVerified Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+
+  services         Service[]         @relation("ShopServices")
+  products         Product[]         @relation("ShopProducts")
+  reviews          Review[]          @relation("ShopReviews")
+  notifications    Notification[]
+  offers           Offer[]           @relation("ShopOffers")
+  pinVerifications PinVerification[] @relation("ShopPinVerifications")
+
+  bookings Booking[] @relation("ShopBookings")
+  adressId String?
+
+  // Favorites
+  favoritedBy UserFavorite[] @relation("ShopFavorites")
+}
+
+// Categories and subcategories to organize services/products
+model Category {
+  id            String        @id @default(uuid())
+  name          String
+  slug          String?       @unique
+  description   String?       @db.Text
+  position      Int           @default(0) // For ordering/sorting categories
+  subCategories SubCategory[]
+  createdAt     DateTime      @default(now())
+  Service       Service[]
+  design        design?        @relation("CategoryDesigns", fields: [designId], references: [id])
+  designId      String?
+
+  // Plan and offer relations
+  planSelections UserGuidePlan[] @relation("PlanSelectedCategory")
+  offers         Offer[]         @relation("OfferCategories")
+}
+
+model SubCategory {
+  id         String    @id @default(uuid())
+  name       String
+  slug       String    @unique
+  category   Category  @relation(fields: [categoryId], references: [id])
+  categoryId String
+  createdAt  DateTime  @default(now())
+  services   Service[] @relation("SubCategoryServices")
+}
+
+// Tags (free text tags)
+model Tag {
+  id   String @id @default(uuid())
+  name String @unique
+  slug String @unique
+  // relation tables via ServiceTag / ProductTag if needed
+}
+
+// Services (can be listed by a user or under a shop)
+// Important: contains embedding_text for vector search
+model Service {
+  id            String               @id @default(uuid())
+  vid           String?              @unique
+  uuidExternal  String? // optional external id
+  translation   service_translation? @relation(fields: [translationId], references: [id])
+  embeddingText String               @db.Text
+  phone         String?
+  category      Category[] // denormalized (human readable)
+  subCategory   SubCategory?         @relation("SubCategoryServices", fields: [subCategoryId], references: [id])
+  subCategoryId String?
+  city          String?
+  locationLat   Float?
+  design        design?              @relation(fields: [designId], references: [id])
+  designId      String?
+  locationLon   Float?
+  tags          tags[]
+  price         Float? // base price (optional)
+  durationMins  Int? // default booking duration in minutes
+  currency      String?              @default("EGP")
+  available     Boolean              @default(true)
+  isdefault     Boolean              @default(false) // for featured listings
+  // Images
+  coverImage    String? // Cover banner image
+  logoImage     String? // Service/Provider logo
+  galleryImages String?              @db.Text // JSON array of image URLs
+
+  // Relations: either user OR shop (both allowed)
+  ownerUser   User?   @relation("UserServices", fields: [ownerUserId], references: [id])
+  ownerUserId String?
+  shop        Shop?   @relation("ShopServices", fields: [shopId], references: [id])
+  shopId      String?
+
+  availability     ServiceAvailability[]
+  bookings         Booking[]
+  reviews          Review[]
+  searchCaches     SearchCacheService[] // search caches containing this service
+  cartItems        CartItem[] // cart items for this service
+  offers           Offer[]               @relation("OfferServices")
+  offerUsages      OfferUsage[]
+  pinVerifications PinVerification[]
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  deletedAt        DateTime?
+  translationId    String?
+}
+
+// Service availability / recurring schedule (used to generate slots)
+model ServiceAvailability {
+  id          String   @id @default(uuid())
+  service     Service  @relation(fields: [serviceId], references: [id])
+  serviceId   String
+  // recurring schedule (e.g., every Mon 18:00 - 06:00)
+  dayOfWeek   WeekDay? // for recurring weekly schedule, optional
+  startTime   String // "18:00" (HH:mm) local time
+  endTime     String // "06:00" (HH:mm) local time (may be next day)
+  timezone    String? // default server timezone
+  isRecurring Boolean  @default(true)
+
+  // For one-off availability windows:
+  startDate DateTime?
+  endDate   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Bookings (appointments for services)
+model Booking {
+  id           String        @id @default(uuid())
+  bookingRef   String?       @unique
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String
+  service      Service       @relation(fields: [serviceId], references: [id])
+  serviceId    String
+  shop         Shop?         @relation("ShopBookings", fields: [shopId], references: [id])
+  shopId       String?
+  startAt      DateTime
+  endAt        DateTime
+  durationMins Int?
+  status       BookingStatus @default(PENDING)
+  price        Float?
+  currency     String?       @default("EGP")
+  
+  // Customer contact information
+  customerName  String
+  customerPhone String
+  customerEmail String?
+  
+  notes        String?      @db.Text
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  cancelledAt  DateTime?
+  // Additional meta
+  metadata     Json?
+}
+
+// Products (sold via shops; can be listed by a user but must belong to a shop)
+model Product {
+  id            String  @id @default(uuid())
+  vid           String? @unique
+  sku           String? @unique
+  name          String
+  description   String? @db.Text
+  price         Float
+  currency      String? @default("EGP")
+  stock         Int     @default(0)
+  isActive      Boolean @default(true)
+  images        String? @db.Text // JSON array of image URLs
+  design        design? @relation(fields: [designId], references: [id])
+  designId      String?
+  embeddingText String? // embedding_text field used to embed into vector DB
+  // Ownership/listing
+  shop          Shop?   @relation("ShopProducts", fields: [shopId], references: [id])
+  shopId        String?
+  lister        User?   @relation("UserProducts", fields: [listerId], references: [id])
+  listerId      String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  orderItems       OrderItem[]
+  reviews          Review[]
+  tags             tags[]
+  cartItems        CartItem[]
+  offers           Offer[]           @relation("OfferProducts")
+  offerUsages      OfferUsage[]
+  pinVerifications PinVerification[]
+}
+
+model tags {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  services  Service[]
+  products  Product[]
+}
+
+// Orders (for product purchases)
+model Order {
+  id            String         @id @default(uuid())
+  orderNumber   String         @unique
+  user          User           @relation("UserOrders", fields: [userId], references: [id])
+  userId        String
+  totalAmount   Float
+  currency      String         @default("EGP")
+  status        OrderStatus    @default(PENDING)
+  paymentMethod PaymentMethod?
+  shippedAt     DateTime?
+  deliveredAt   DateTime?
+  cancelledAt   DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  items    OrderItem[]
+  delivery DeliveryTracking?
+  coupon   Coupon?           @relation("OrderCoupons", fields: [couponId], references: [id])
+  couponId String?
+  metadata Json?
+}
+
+// Order items linking products to orders
+model OrderItem {
+  id         String   @id @default(uuid())
+  order      Order    @relation(fields: [orderId], references: [id])
+  orderId    String
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  String
+  quantity   Int
+  unitPrice  Float
+  totalPrice Float
+  createdAt  DateTime @default(now())
+}
+
+// Delivery tracking for orders
+model DeliveryTracking {
+  id           String         @id @default(uuid())
+  order        Order          @relation(fields: [orderId], references: [id])
+  orderId      String         @unique
+  status       DeliveryStatus @default(PENDING)
+  carrier      String?
+  trackingCode String?
+  lastLocation Json? // { lat, lon, timestamp } or list of updates
+  eta          DateTime?
+  updatedAt    DateTime       @updatedAt
+  createdAt    DateTime       @default(now())
+}
+
+// Enhanced Chat system: conversations and messages (supports attachments)
+model Chat {
+  id      String  @id @default(uuid())
+  subject String?
+
+  // Direct chat participants (simplified)
+  initiator   User   @relation("UserChats", fields: [initiatorId], references: [id])
+  initiatorId String
+  recipient   User   @relation("ChatRecipient", fields: [recipientId], references: [id])
+  recipientId String
+
+  // Legacy many-to-many for group chats
+  chatParticipants User[]    @relation("ChatParticipants")
+  messages         Message[]
+
+  isGroup       Boolean   @default(false)
+  isActive      Boolean   @default(true)
+  lastMessageAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([initiatorId, recipientId])
+  @@index([initiatorId])
+  @@index([recipientId])
+}
+
+// Enhanced Messages in a chat (with attachments and read status)
+model Message {
+  id          String  @id @default(uuid())
+  chat        Chat    @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chatId      String
+  sender      User    @relation("MessageSender", fields: [senderId], references: [id])
+  senderId    String
+  text        String?
+  attachments File[]  @relation("MessageFiles")
+
+  // Message status
+  isRead   Boolean   @default(false)
+  readAt   DateTime?
+  isEdited Boolean   @default(false)
+  editedAt DateTime?
+
+  createdAt DateTime @default(now())
+  metadata  Json?
+
+  @@index([chatId])
+  @@index([senderId])
+}
+
+// Files/attachments
+model File {
+  id         String    @id @default(uuid())
+  url        String
+  mimeType   String?
+  filename   String?
+  size       Int?
+  uploader   User?     @relation("UserFiles", fields: [uploaderId], references: [id])
+  uploaderId String?
+  messages   Message[] @relation("MessageFiles")
+  createdAt  DateTime  @default(now())
+}
+
+// Reviews & Comments for services, products, shops, and users
+model Review {
+  id         String   @id @default(uuid())
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   String
+  rating     Int // 1..5
+  comment    String?  @db.Text
+  service    Service? @relation(fields: [serviceId], references: [id])
+  serviceId  String?
+  product    Product? @relation(fields: [productId], references: [id])
+  productId  String?
+  shop       Shop?    @relation("ShopReviews", fields: [shopId], references: [id])
+  shopId     String?
+  user       User?    @relation("UserReviews", fields: [userId], references: [id]) // Reviews for users
+  userId     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  isVerified Boolean  @default(false) // whether review is verified/purchased
+
+  // Review reactions
+  reactions ReviewReaction[]
+}
+
+// Coupons / discount codes
+model Coupon {
+  id              String           @id @default(uuid())
+  code            String           @unique
+  title           String?
+  description     String?          @db.Text
+  targetType      CouponTargetType @default(GLOBAL)
+  targetId        String? // id of service / product / shop if applicable
+  discountPercent Float? // e.g., 10 for 10%
+  discountAmount  Float? // flat amount
+  maxUses         Int? // global usage cap
+  usesCount       Int              @default(0)
+  maxUsesPerUser  Int? // per-user cap
+  minOrderAmount  Float? // minimum order to apply coupon
+  validFrom       DateTime?
+  expiresAt       DateTime?
+  active          Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+
+  // Optional owner (who issued or holds it)
+  owner   User?   @relation("UserCoupons", fields: [ownerId], references: [id])
+  orders  Order[] @relation("OrderCoupons")
+  ownerId String?
+}
+
+// Provider Subscription Plans
+model ProviderSubscription {
+  id         String           @id @default(uuid())
+  provider   User             @relation("ProviderSubscriptions", fields: [providerId], references: [id])
+  providerId String
+  planType   ProviderPlanType @default(BASIC_FREE)
+
+  // Pricing details
+  pricePerYear Float  @default(0) // in EGP
+  currency     String @default("EGP")
+
+  // Plan capabilities
+  canTakeBookings     Boolean @default(false)
+  canListProducts     Boolean @default(false)
+  searchPriority      Int     @default(0) // 0=normal, 10=bronze, 5=silver, 3=gold
+  hasPriorityBadge    Boolean @default(false)
+  hasPromotionalVideo Boolean @default(false)
+
+  // Discount tracking
+  fieldRepDiscount Float? // 20% if contracted via representative
+  matchingDiscount Float? // Matching their customer discounts
+  totalDiscount    Float  @default(0)
+
+  // Subscription timing
+  startedAt DateTime  @default(now())
+  expiresAt DateTime?
+  isActive  Boolean   @default(true)
+  autoRenew Boolean   @default(false)
+
+  // Payment tracking
+  lastPaymentAt  DateTime?
+  nextPaymentDue DateTime?
+  paymentMethod  String? // "paymob", "cash", etc.
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([providerId]) // One active subscription per provider
+}
+
+// User Subscription Plans (for discount cards)
+model UserSubscription {
+  id       String       @id @default(uuid())
+  user     User         @relation("UserSubscriptions", fields: [userId], references: [id])
+  userId   String
+  planType UserPlanType @default(FREE)
+
+  // Pricing details
+  pricePerPeriod Float  @default(0) // in EGP
+  periodMonths   Int    @default(12) // 3, 6, or 12 months
+  currency       String @default("EGP")
+
+  // Plan capabilities
+  hasMedicalDiscounts     Boolean @default(false)
+  hasAllCategoryDiscounts Boolean @default(false)
+  maxFamilyMembers        Int     @default(0) // up to 5 for paid plans
+
+  // Digital card details
+  cardNumber String? @unique
+  qrCode     String? // QR code for easy access
+
+  // Subscription timing
+  startedAt DateTime  @default(now())
+  expiresAt DateTime?
+  isActive  Boolean   @default(true)
+  isTrial   Boolean   @default(false) // Free trial month
+
+  // Payment tracking
+  lastPaymentAt  DateTime?
+  nextPaymentDue DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId]) // One active subscription per user
+}
+
+// Business Application for provider registration
+model BusinessApplication {
+  id          String @id @default(uuid())
+  applicant   User   @relation(fields: [applicantId], references: [id])
+  applicantId String
+
+  // Business information (separate from user personal info)
+  businessName    String
+  businessEmail   String  @unique
+  businessPhone   String  @unique
+  description     String? @db.Text
+  businessAddress String?
+  businessCity    String?
+  locationLat     Float?
+  locationLon     Float?
+
+  // Business type - determines default subscription plan
+  businessType Role @default(PROVIDER) // PROVIDER or DELIVERY
+
+  // Documents and attachments
+  documents BusinessDocument[]
+
+  // Application status
+  status      BusinessApplicationStatus @default(PENDING)
+  statusNotes String? // admin notes for status changes
+
+  // Review details
+  reviewedBy String? // admin user id who reviewed
+  reviewedAt DateTime?
+  approvedAt DateTime?
+  rejectedAt DateTime?
+
+  // Metadata
+  submittedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([businessEmail])
+  @@index([businessPhone])
+  @@index([status])
+}
+
+// Business documents for applications
+model BusinessDocument {
+  id            String              @id @default(uuid())
+  application   BusinessApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId String
+
+  // Document details
+  documentType String // "commercial_register", "tax_certificate", "id_card", "business_license", etc.
+  originalName String // original filename
+  filename     String // stored filename
+  filePath     String // storage path
+  fileUrl      String? // public URL if applicable
+  fileSize     Int? // file size in bytes
+  mimeType     String? // file MIME type
+
+  // Verification status
+  isVerified        Boolean   @default(false)
+  verifiedBy        String? // admin user id who verified
+  verifiedAt        DateTime?
+  verificationNotes String?
+
+  uploadedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Search rate tracking (daily usage per user)
+model SearchUsage {
+  id        String   @id @default(uuid())
+  user      User     @relation("UserSearchUsages", fields: [userId], references: [id])
+  userId    String
+  date      DateTime
+  count     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, date])
+}
+
+model shop_translation {
+  id        String   @id @default(uuid())
+  text_en   String   @db.Text
+  text_ar   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Shop      Shop[]
+}
+
+model service_translation {
+  id             String    @id @default(uuid())
+  name_en        String    @db.Text
+  name_ar        String    @db.Text
+  description_en String    @db.Text
+  description_ar String    @db.Text
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  Service        Service[]
+}
+
+model design {
+  id          String     @id @default(uuid())
+  name        String
+  description String     @db.Text
+  slug        String     @unique
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Service     Service[]
+  Shop        Shop[]
+  Product     Product[]
+  User        User[]
+  Category    Category[] @relation("CategoryDesigns")
+  categoryId  String
+}
+
+model design_translation {
+  id String @id @default(uuid())
+}
+
+// Search cache for storing and retrieving search results
+model SearchCache {
+  id          String  @id @default(uuid())
+  slug        String  @unique // human-readable identifier for the search
+  query       String // original search query
+  description String? @db.Text // optional description of the search
+  metadata    Json? // additional search parameters (filters, location, etc.)
+
+  // Relations to services found in this search
+  services SearchCacheService[]
+
+  // Analytics and management
+  viewCount   Int     @default(0)
+  createdBy   User?   @relation(fields: [createdById], references: [id])
+  createdById String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expiresAt DateTime? // optional expiration for cache cleanup
+}
+
+// Junction table for many-to-many relationship between SearchCache and Service
+model SearchCacheService {
+  id            String      @id @default(uuid())
+  searchCache   SearchCache @relation(fields: [searchCacheId], references: [id], onDelete: Cascade)
+  searchCacheId String
+  service       Service     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId     String
+
+  // Optional ranking or relevance score for this service in the search
+  relevanceScore Float? @default(1.0)
+  position       Int? // position in search results (0-indexed)
+
+  createdAt DateTime @default(now())
+
+  @@unique([searchCacheId, serviceId])
+}
+
+// User Analytics and Tracking
+model UserAnalytics {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  // View tracking
+  profileViews Int @default(0)
+  serviceViews Int @default(0)
+  shopViews    Int @default(0)
+
+  // Interaction tracking
+  contactClicks    Int @default(0)
+  emailClicks      Int @default(0)
+  phoneClicks      Int @default(0)
+  messagesSent     Int @default(0)
+  messagesReceived Int @default(0)
+
+  // Engagement metrics
+  totalBookings   Int    @default(0)
+  totalOrders     Int    @default(0)
+  avgResponseTime Int? // in minutes
+  successRate     Float? // percentage 0-100
+
+  // Social metrics
+  reviewsGiven      Int @default(0)
+  reviewsReceived   Int @default(0)
+  reactionsGiven    Int @default(0)
+  reactionsReceived Int @default(0)
+
+  // Notification metrics
+  notificationsReadCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Shopping Cart System
+model Cart {
+  id        String     @id @default(uuid())
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String     @unique
+  items     CartItem[]
+  total     Float      @default(0)
+  currency  String     @default("EGP")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id         String       @id @default(uuid())
+  cart       Cart         @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId     String
+  type       CartItemType
+  quantity   Int          @default(1)
+  unitPrice  Float
+  totalPrice Float
+
+  // Polymorphic relations
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([cartId])
+}
+
+// Review Reactions System
+model ReviewReaction {
+  id       String       @id @default(uuid())
+  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  review   Review       @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reviewId String
+  type     ReactionType
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, reviewId]) // One reaction per user per review
+  @@index([reviewId])
+}
+
+// Payment transaction records for proper tracking and idempotency
+model Payment {
+  id             String @id @default(uuid())
+  userId         String
+  planType       String // PROVIDER | USER
+  planId         String
+  amount         Float
+  originalAmount Float? // before discounts
+  currency       String @default("EGP")
+  paymentMethod  String // card | mobile_wallet | bank_transfer
+  status         String // PENDING | SUCCESS | FAILED | EXPIRED | REFUNDED
+
+  // Paymob integration fields
+  paymobOrderId       String?
+  paymobTransactionId String? @unique
+  paymobPaymentKey    String? @db.Text
+
+  // Applied discounts and coupons
+  appliedDiscounts Json? // array of discount objects
+  couponCode       String?
+
+  // Webhook and processing
+  webhookReceived      Boolean   @default(false)
+  webhookProcessedAt   DateTime?
+  subscriptionUpgraded Boolean   @default(false)
+
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+  expiresAt   DateTime?
+
+  // Relations
+  user    User     @relation(fields: [userId], references: [id])
+  refunds Refund[]
+
+  @@index([userId])
+  @@index([paymobTransactionId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// Refund tracking
+model Refund {
+  id             String  @id @default(uuid())
+  paymentId      String
+  paymobRefundId String? @unique
+  amount         Float
+  currency       String  @default("EGP")
+  reason         String
+  status         String // PENDING | COMPLETED | FAILED
+
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+
+  // Relations
+  payment Payment @relation(fields: [paymentId], references: [id])
+
+  @@index([paymentId])
+  @@index([status])
+}
+
+// Saved Payment Methods for users
+model SavedPaymentMethod {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  // Payment method type
+  type String // CARD | WALLET | BANK_TRANSFER
+
+  // Card details (for CARD type)
+  cardLast4      String?
+  cardBrand      String? // Visa, MasterCard, etc.
+  cardHolderName String?
+  expiryMonth    Int?
+  expiryYear     Int?
+
+  // Wallet details (for WALLET type)
+  walletProvider String? // Vodafone Cash, Orange Money, etc.
+  walletNumber   String? // Last 4 digits
+
+  // Bank transfer details (for BANK_TRANSFER type)
+  bankName     String?
+  accountLast4 String?
+
+  // Paymob token (if using tokenization)
+  paymobToken String? @unique
+
+  // Settings
+  isDefault Boolean @default(false)
+  isActive  Boolean @default(true)
+
+  // Timestamps
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  lastUsedAt DateTime?
+
+  @@index([userId])
+  @@index([isDefault])
+}
+
+// New User Guide Plan System
+model UserGuidePlan {
+  id       String        @id @default(uuid())
+  user     User          @relation("UserGuidePlans", fields: [userId], references: [id])
+  userId   String        @unique
+  planType GuidePlanType @default(FREE)
+
+  // Plan details
+  selectedCategoryId String? // For SINGLE_CATEGORY plans
+  selectedCategory   Category? @relation("PlanSelectedCategory", fields: [selectedCategoryId], references: [id])
+  pricePerMonth      Float     @default(0)
+  currency           String    @default("EGP")
+
+  // Plan features
+  includesChat      Boolean @default(false)
+  includesDiscounts Boolean @default(false)
+
+  // Egyptian ID and personal info (required for paid plans)
+  egyptianNationalId String? @unique // 14-digit Egyptian national ID
+  fullArabicName     String? // Full 4-part Arabic name
+  profilePicture     String? // URL to profile picture
+
+  // Monthly PIN system (4-4 format: XXXX-XXXX)
+  currentMonthPin String?   @unique // Current month's 8-digit PIN
+  pinGeneratedAt  DateTime? // When current PIN was generated
+  pinExpiresAt    DateTime? // PIN expiry (monthly)
+  pinUsageCount   Int       @default(0) // Track PIN usage this month
+
+  // Plan status and timing
+  isActive  Boolean   @default(true)
+  isTrial   Boolean   @default(false)
+  startedAt DateTime  @default(now())
+  expiresAt DateTime?
+
+  // Payment tracking
+  lastPaymentAt  DateTime?
+  nextPaymentDue DateTime?
+
+  // Family members (up to 4 additional users)
+  familyMembers    PlanFamilyMember[]
+  maxFamilyMembers Int                @default(0) // 0 for FREE, 4 for paid plans
+  currentMembers   Int                @default(1) // Owner counts as 1 member
+
+  // PIN usage history
+  pinVerifications PinVerification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Family members included in a user's plan
+model PlanFamilyMember {
+  id     String        @id @default(uuid())
+  plan   UserGuidePlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  planId String
+
+  // Invited user info
+  invitedUser   User?   @relation("FamilyMemberUsers", fields: [invitedUserId], references: [id])
+  invitedUserId String?
+
+  // Invitation details
+  inviteEmail  String? // Email where invite was sent
+  invitePhone  String? // Phone where invite was sent
+  inviteToken  String  @unique // Unique token for invite link
+  inviteStatus String  @default("PENDING") // PENDING, ACCEPTED, EXPIRED, CANCELLED
+  inviteMethod String  @default("EMAIL") // EMAIL, PHONE, LINK
+
+  // Personal info (if not registered user yet)
+  tempName  String? // Temporary name until they register
+  tempPhone String? // Temporary phone
+
+  // Family member access info
+  canUseChat      Boolean @default(true) // Family member can use chat
+  canUseDiscounts Boolean @default(true) // Family member can use discounts
+
+  invitedAt    DateTime  @default(now())
+  acceptedAt   DateTime?
+  expiresAt    DateTime // Invite expiry (7 days)
+  lastActiveAt DateTime? // Last time family member was active
+
+  @@index([inviteToken])
+  @@index([inviteEmail])
+  @@index([invitePhone])
+}
+
+// PIN verification history for tracking usage
+model PinVerification {
+  id     String        @id @default(uuid())
+  plan   UserGuidePlan @relation(fields: [planId], references: [id])
+  planId String
+
+  // User who used the PIN (owner or family member)
+  user   User   @relation("UserPinVerifications", fields: [userId], references: [id])
+  userId String
+
+  // Verification details
+  pinUsed          String // The 8-digit PIN that was verified
+  verifiedBy       String? // Provider/shop who verified the PIN
+  verifierName     String? // Provider/shop name
+  verificationCode String  @unique // Unique code for this verification
+  monthYear        String // "2025-01" format for tracking monthly usage
+
+  // Transaction details
+  originalAmount  Float // Original service/product price
+  discountAmount  Float // Amount discounted
+  finalAmount     Float // Final amount after discount
+  discountPercent Float // Discount percentage applied
+  currency        String @default("EGP")
+
+  // Related offer or service
+  offer     Offer?   @relation(fields: [offerId], references: [id])
+  offerId   String?
+  service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId String?
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+  shop      Shop?    @relation("ShopPinVerifications", fields: [shopId], references: [id])
+  shopId    String?
+
+  // Location and metadata
+  verificationLocation String? // Shop/provider location
+  customerName         String? // Name of the customer who used the service
+  receiptNumber        String? // Receipt or invoice number
+  metadata             Json? // Additional transaction data
+
+  // Status
+  status String @default("COMPLETED") // COMPLETED, PENDING, CANCELLED
+
+  // Relation to offer usage
+  offerUsage OfferUsage?
+
+  verifiedAt DateTime @default(now())
+
+  @@index([planId])
+  @@index([userId])
+  @@index([pinUsed])
+  @@index([monthYear])
+  @@index([verifiedAt])
+}
+
+// Offers system for services and products
+model Offer {
+  id String @id @default(uuid())
+
+  // Basic offer information
+  title            String // Display title for the offer
+  description      String  @db.Text // Detailed description
+  shortDescription String? // Brief summary for cards/lists
+
+  // Offer classification
+  level      OfferLevel      @default(BASIC)
+  targetType OfferTargetType @default(SERVICE)
+
+  // Discount details
+  discountType      String @default("PERCENTAGE") // PERCENTAGE, FIXED_AMOUNT
+  discountValue     Float // Percentage (e.g., 25) or fixed amount
+  maxDiscountAmount Float? // Cap for percentage discounts
+  minPurchaseAmount Float? // Minimum purchase to qualify
+
+  // Price range applicability
+  minPrice Float? // Minimum service/product price
+  maxPrice Float? // Maximum service/product price
+
+  // Time-based constraints
+  validFrom  DateTime  @default(now())
+  validUntil DateTime?
+
+  // Day/time restrictions
+  validDays     String? // JSON array of valid days ["MONDAY", "TUESDAY"]
+  validTimeFrom String? // "09:00" - start time
+  validTimeTo   String? // "17:00" - end time
+
+  // Usage limits and rate limiting
+  maxTotalUsage    Int? // Global usage limit
+  currentUsage     Int  @default(0)
+  maxUsagePerUser  Int? // Per-user usage limit
+  maxUsagePerDay   Int? // Daily usage limit
+  maxUsagePerMonth Int? // Monthly usage limit
+  maxUsagePerYear  Int? // Yearly usage limit (e.g., once a year per user)
+
+  // Targeting and availability
+  isActive     Boolean @default(true)
+  isExclusive  Boolean @default(false) // Exclusive offers for premium users
+  requiresPlan Boolean @default(true) // Requires user to have a paid plan
+
+  // Relations to services/products
+  services   Service[]  @relation("OfferServices")
+  products   Product[]  @relation("OfferProducts")
+  categories Category[] @relation("OfferCategories")
+
+  // Provider/shop who created the offer
+  provider   User    @relation("ProviderOffers", fields: [providerId], references: [id])
+  providerId String
+  shop       Shop?   @relation("ShopOffers", fields: [shopId], references: [id])
+  shopId     String?
+
+  // Display and media
+  imageUrl        String? // Offer banner/image
+  backgroundColor String? // Brand color for display
+  textColor       String? // Text color for contrast
+
+  // Usage tracking
+  offerUsages      OfferUsage[]
+  pinVerifications PinVerification[]
+
+  // Analytics
+  viewCount       Int @default(0)
+  clickCount      Int @default(0)
+  conversionCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([providerId])
+  @@index([level])
+  @@index([isActive])
+  @@index([validFrom, validUntil])
+}
+
+// Track individual offer usage for rate limiting
+model OfferUsage {
+  id      String @id @default(uuid())
+  offer   Offer  @relation(fields: [offerId], references: [id])
+  offerId String
+  user    User   @relation("UserOfferUsages", fields: [userId], references: [id])
+  userId  String
+
+  // Usage details
+  originalAmount Float // Original price
+  discountAmount Float // Amount saved
+  finalAmount    Float // Final price paid
+
+  // Related transaction
+  service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId String?
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+
+  // PIN verification if applicable
+  pinVerification   PinVerification? @relation(fields: [pinVerificationId], references: [id])
+  pinVerificationId String?          @unique
+
+  usedAt DateTime @default(now())
+
+  @@index([offerId, userId])
+  @@index([usedAt])
+}
+
+// User Favorites for Shops
+model UserFavorite {
+  id     String @id @default(uuid())
+  user   User   @relation("UserFavorites", fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  shop   Shop   @relation("ShopFavorites", fields: [shopId], references: [id], onDelete: Cascade)
+  shopId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, shopId])
+  @@index([userId])
+  @@index([shopId])
+}
+
+// -------------------- Family System --------------------
+
+enum FamilyInvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  CANCELLED
+}
+
+// Family subscription groups
+model Family {
+  id        String   @id @default(uuid())
+  name      String   // e.g., "عائلة أحمد"
+  headId    String   @unique // The user who created the family
+  maxMembers Int     @default(4)
+  isActive  Boolean  @default(true)
+  
+  head      User     @relation("FamilyHead", fields: [headId], references: [id])
+  members   FamilyMember[]
+  invitations FamilyInvitation[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([headId])
+  @@index([isActive])
+}
+
+// Family members
+model FamilyMember {
+  id        String   @id @default(uuid())
+  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  familyId  String
+  user      User     @relation("FamilyMemberships", fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  role      String   @default("member") // "head" or "member"
+  joinedAt  DateTime @default(now())
+  
+  @@unique([familyId, userId])
+  @@index([familyId])
+  @@index([userId])
+}
+
+// Family invitations
+model FamilyInvitation {
+  id        String                  @id @default(uuid())
+  family    Family                  @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  familyId  String
+  email     String
+  invitedBy String
+  inviter   User                    @relation("SentFamilyInvitations", fields: [invitedBy], references: [id])
+  status    FamilyInvitationStatus  @default(PENDING)
+  token     String                  @unique // Invitation token
+  expiresAt DateTime
+  
+  acceptedBy String?
+  acceptedUser User?                @relation("AcceptedFamilyInvitations", fields: [acceptedBy], references: [id])
+  acceptedAt DateTime?
+  
+  createdAt DateTime @default(now())
+  
+  @@index([familyId])
+  @@index([email])
+  @@index([token])
+  @@index([status])
+}
+
+// Referral system
+model Referral {
+  id            String   @id @default(uuid())
+  referrer      User     @relation("ReferralsSent", fields: [referrerId], references: [id])
+  referrerId    String
+  referred      User?    @relation("ReferralsReceived", fields: [referredId], references: [id])
+  referredId    String?  @unique
+  referralCode  String   @unique
+  email         String?
+  phone         String?
+  
+  // Status tracking
+  isRegistered  Boolean  @default(false)
+  isSubscribed  Boolean  @default(false)
+  registeredAt  DateTime?
+  subscribedAt  DateTime?
+  
+  // Points earned
+  registrationPoints Int  @default(0)
+  subscriptionPoints Int  @default(0)
+  totalPoints        Int  @default(0)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([referrerId])
+  @@index([referredId])
+  @@index([referralCode])
+}
+
+// Points and rewards system
+model UserPoints {
+  id                 String   @id @default(uuid())
+  user               User     @relation("UserPointsBalance", fields: [userId], references: [id])
+  userId             String   @unique
+  
+  totalEarned        Int      @default(0)
+  totalSpent         Int      @default(0)
+  currentBalance     Int      @default(0)
+  
+  // Point sources breakdown
+  referralPoints     Int      @default(0)
+  subscriptionPoints Int      @default(0)
+  bonusPoints        Int      @default(0)
+  
+  pointTransactions  PointTransaction[]
+  rewardRedemptions  RewardRedemption[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+// Point transactions history
+model PointTransaction {
+  id           String      @id @default(uuid())
+  userPoints   UserPoints  @relation(fields: [userPointsId], references: [id])
+  userPointsId String
+  
+  amount       Int
+  type         String      // "EARNED" or "SPENT"
+  source       String      // "REFERRAL_SIGNUP", "REFERRAL_SUBSCRIPTION", "MONTHLY_BONUS", "REWARD_REDEMPTION"
+  description  String?
+  metadata     Json?       // Additional info like referral ID, reward ID, etc.
+  
+  createdAt    DateTime    @default(now())
+  
+  @@index([userPointsId])
+  @@index([createdAt])
+}
+
+// Rewards catalog
+model Reward {
+  id               String    @id @default(uuid())
+  title            String
+  titleAr          String
+  description      String    @db.Text
+  descriptionAr    String    @db.Text
+  pointsRequired   Int
+  imageUrl         String?
+  
+  // Reward details
+  rewardType       String    // "DISCOUNT_PERCENTAGE", "DISCOUNT_FIXED", "FREE_MONTH", "UPGRADE"
+  rewardValue      String    // JSON with reward details
+  
+  // Availability
+  isActive         Boolean   @default(true)
+  maxRedemptions   Int?      // Global limit
+  currentRedemptions Int     @default(0)
+  
+  redemptions      RewardRedemption[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([isActive])
+  @@index([pointsRequired])
+}
+
+// Reward redemptions
+model RewardRedemption {
+  id           String      @id @default(uuid())
+  reward       Reward      @relation(fields: [rewardId], references: [id])
+  rewardId     String
+  userPoints   UserPoints  @relation(fields: [userPointsId], references: [id])
+  userPointsId String
+  
+  pointsSpent  Int
+  status       String      @default("PENDING") // "PENDING", "ACTIVE", "USED", "EXPIRED"
+  
+  // Usage tracking
+  expiresAt    DateTime?
+  usedAt       DateTime?
+  
+  metadata     Json?       // Coupon code, discount details, etc.
+  
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  
+  @@index([rewardId])
+  @@index([userPointsId])
+  @@index([status])
+  @@index([createdAt])
+}

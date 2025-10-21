@@ -1,0 +1,203 @@
+╔════════════════════════════════════════════════════════════════╗
+║              ADMIN DASHBOARD SIDEBAR STRUCTURE                 ║
+║                    دليل بلدي - لوحة الإدارة                  ║
+╚════════════════════════════════════════════════════════════════╝
+
+┌────────────────────────────────────────────────────────────────┐
+│  📊 دليل بلدي                                      [Admin]    │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  ┌─ عام / GENERAL ──────────────────────────────────────┐     │
+│  │                                                       │     │
+│  │  📈  لوحة التحكم                     /admin          │     │
+│  │  📊  التحليلات والإحصائيات         /admin/analytics │     │
+│  │                                                       │     │
+│  └───────────────────────────────────────────────────────┘     │
+│                                                                │
+│  ┌─ إدارة البيانات / MANAGEMENT ─────────────────────┐        │
+│  │                                                       │     │
+│  │  👥  المستخدمين                    /admin/users     │     │
+│  │  🏪  المحلات                      /admin/shops     │     │
+│  │  💼  الخدمات                      /admin/services  │     │
+│  │  📦  المنتجات                     /admin/products  │     │
+│  │                                                       │     │
+│  └───────────────────────────────────────────────────────┘     │
+│                                                                │
+│  ┌─ المعاملات / TRANSACTIONS ──────────────────────┐          │
+│  │                                                       │     │
+│  │  📅  الحجوزات                     /admin/bookings  │     │
+│  │  🛍️  الطلبات                      /admin/orders    │     │
+│  │  📄  طلبات الأعمال              /admin/applications│     │
+│  │                                                       │     │
+│  └───────────────────────────────────────────────────────┘     │
+│                                                                │
+│  ┌─ المالية / FINANCIAL ──────────────────────────┐           │
+│  │                                                       │     │
+│  │  🧾  الاشتراكات                /admin/subscriptions│     │
+│  │  💳  المدفوعات                    /admin/payments  │     │
+│  │  🏷️  الكوبونات                    /admin/coupons   │     │
+│  │                                                       │     │
+│  └───────────────────────────────────────────────────────┘     │
+│                                                                │
+│  ┌─ إعدادات / SYSTEM ──────────────────────────────┐          │
+│  │                                                       │     │
+│  │  🛡️  التصنيفات                  /admin/categories  │     │
+│  │  ⭐  التقييمات                    /admin/reviews   │     │
+│  │  ⚙️  الإعدادات                    /admin/settings  │     │
+│  │                                                       │     │
+│  └───────────────────────────────────────────────────────┘     │
+│                                                                │
+├────────────────────────────────────────────────────────────────┤
+│  🌐  [العربية ▾]                               Language       │
+└────────────────────────────────────────────────────────────────┘
+
+
+════════════════════════════════════════════════════════════════
+                    NAVIGATION HIERARCHY
+════════════════════════════════════════════════════════════════
+
+Level 1: Section Groups (5 groups)
+├── عام (General)
+├── إدارة البيانات (Management)
+├── المعاملات (Transactions)
+├── المالية (Financial)
+└── إعدادات (System)
+
+Level 2: Pages (15 pages total)
+
+عام (2 pages)
+├── لوحة التحكم
+└── التحليلات والإحصائيات
+
+إدارة البيانات (4 pages)
+├── المستخدمين
+├── المحلات
+├── الخدمات
+└── المنتجات
+
+المعاملات (3 pages)
+├── الحجوزات
+├── الطلبات
+└── طلبات الأعمال
+
+المالية (3 pages)
+├── الاشتراكات
+├── المدفوعات
+└── الكوبونات
+
+إعدادات (3 pages)
+├── التصنيفات
+├── التقييمات
+└── الإعدادات
+
+
+════════════════════════════════════════════════════════════════
+                    ICONS MAPPING
+════════════════════════════════════════════════════════════════
+
+📈  LayoutDashboard  - لوحة التحكم
+📊  TrendingUp      - التحليلات والإحصائيات
+👥  Users           - المستخدمين
+🏪  Store           - المحلات
+💼  Briefcase       - الخدمات
+📦  Package         - المنتجات
+📅  Calendar        - الحجوزات
+🛍️  ShoppingBag     - الطلبات
+📄  FileText        - طلبات الأعمال
+🧾  Receipt         - الاشتراكات
+💳  CreditCard      - المدفوعات
+🏷️  Tag             - الكوبونات
+🛡️  Shield          - التصنيفات
+⭐  Star            - التقييمات
+⚙️  Settings        - الإعدادات
+
+
+════════════════════════════════════════════════════════════════
+                    STATUS LEGEND
+════════════════════════════════════════════════════════════════
+
+✅  Completed & Tested
+🔄  In Development
+📋  Planned
+❌  Not Started
+
+Page Status:
+✅  /admin                    - لوحة التحكم
+✅  /admin/analytics          - التحليلات والإحصائيات
+✅  /admin/users              - المستخدمين
+✅  /admin/shops              - المحلات
+✅  /admin/services           - الخدمات
+✅  /admin/products           - المنتجات
+✅  /admin/bookings           - الحجوزات
+✅  /admin/orders             - الطلبات
+✅  /admin/applications       - طلبات الأعمال
+✅  /admin/subscriptions      - الاشتراكات
+🔄  /admin/payments           - المدفوعات
+🔄  /admin/coupons            - الكوبونات
+🔄  /admin/categories         - التصنيفات
+🔄  /admin/reviews            - التقييمات
+🔄  /admin/settings           - الإعدادات
+
+
+════════════════════════════════════════════════════════════════
+                    RESPONSIVE BEHAVIOR
+════════════════════════════════════════════════════════════════
+
+Mobile (< 768px)
+├── Hidden by default
+├── Overlay sidebar
+├── Opens with hamburger menu
+├── Closes on navigation
+└── Full-height scrollable
+
+Tablet & Desktop (≥ 768px)
+├── Always visible
+├── Fixed 256px width
+├── Sidebar stays open
+├── Scrollable content
+└── Border separator
+
+
+════════════════════════════════════════════════════════════════
+                    COLOR SCHEME
+════════════════════════════════════════════════════════════════
+
+Light Mode:
+├── Background: white
+├── Text: stone-900
+├── Hover: stone-50
+├── Active: indigo-50
+└── Border: stone-200
+
+Dark Mode:
+├── Background: stone-950
+├── Text: stone-100
+├── Hover: stone-700
+├── Active: indigo-900/20
+└── Border: stone-700
+
+
+════════════════════════════════════════════════════════════════
+                    INTERACTION STATES
+════════════════════════════════════════════════════════════════
+
+Default State:
+├── Text: stone-600 (light) / stone-300 (dark)
+├── Icon: stone-400
+└── Background: transparent
+
+Hover State:
+├── Text: stone-900 (light) / white (dark)
+├── Icon: stone-500 (light) / stone-300 (dark)
+└── Background: stone-50 (light) / stone-700 (dark)
+
+Active State:
+├── Text: indigo-700 (light) / indigo-300 (dark)
+├── Icon: indigo-500 (light) / indigo-400 (dark)
+├── Background: indigo-50 (light) / indigo-900/20 (dark)
+└── Border: 2px right border indigo-700/indigo-400
+
+
+════════════════════════════════════════════════════════════════
+                    END OF STRUCTURE DIAGRAM
+════════════════════════════════════════════════════════════════

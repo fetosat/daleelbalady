@@ -1,0 +1,755 @@
+{
+  "categories": [
+    {
+      "name": "الدليلك الطبي",
+      "slug": "medical-guide",
+      "description": "ابحث عن الأطباء والمستشفيات والصيدليات وكل الخدمات الطبية.",
+      "subCategories": [
+        {
+          "id": "91fb26f6-13d6-46db-8ad1-2e827ef3b0ce",
+          "name": "طبيب باطنة",
+          "slug": "internal-medicine-doctor"
+        },
+        {
+          "id": "299eca95-08e6-4370-b091-103aae879013",
+          "name": "طبيب قلب",
+          "slug": "cardiologist"
+        },
+        {
+          "id": "9e20521e-2bfa-48c3-bb5a-87f940f1de70",
+          "name": "طبيب أطفال",
+          "slug": "pediatrician"
+        },
+        {
+          "id": "118a27ab-04c1-46ca-be99-f33020086098",
+          "name": "طبيب عظام",
+          "slug": "orthopedist"
+        },
+        {
+          "id": "f14d3faa-ec5e-448f-b7a6-3c2e423777cc",
+          "name": "طبيب نساء وتوليد",
+          "slug": "gynecologist"
+        },
+        {
+          "id": "0d405b6e-8cd2-4c6c-852a-3a530cfdebf1",
+          "name": "طبيب أنف وأذن",
+          "slug": "ent-doctor"
+        },
+        {
+          "id": "8d71e80d-e1a9-422d-92f0-694673e5f20d",
+          "name": "طبيب جلدية",
+          "slug": "dermatologist"
+        },
+        {
+          "id": "046d7771-58c6-4957-abec-f5f191b92bd7",
+          "name": "طبيب أسنان",
+          "slug": "dentist"
+        },
+        {
+          "id": "3fdb8688-4755-4fbd-b673-b6d3a18a7071",
+          "name": "طبيب عيون",
+          "slug": "ophthalmologist"
+        },
+        {
+          "id": "0f7e79fc-8ec3-4d55-9ab4-258d2a7401ca",
+          "name": "طبيب جراحة",
+          "slug": "surgeon"
+        },
+        {
+          "id": "a3c06161-f76b-41c6-b41c-565b427ff47d",
+          "name": "طبيب أورام",
+          "slug": "oncologist"
+        },
+        {
+          "id": "58a25718-3e1e-4e27-bd1b-11670e2db004",
+          "name": "طبيب مخ وأعصاب",
+          "slug": "neurologist"
+        },
+        {
+          "id": "4c433e3e-b817-462c-a7c5-72f9964bb3de",
+          "name": "طبيب مسالك بولية",
+          "slug": "urologist"
+        },
+        {
+          "id": "f7e76fc8-59c5-41ce-8da2-c4899ca050fc",
+          "name": "طبيب غدد صماء",
+          "slug": "endocrinologist"
+        },
+        {
+          "id": "cb0c60d4-1f11-4da5-83f9-06cfcb6417ab",
+          "name": "طبيب كلى",
+          "slug": "nephrologist"
+        },
+        {
+          "id": "0bfb8c06-ae8d-479f-b9c4-8a1c99da19a2",
+          "name": "طبيب صدر",
+          "slug": "pulmonologist"
+        },
+        {
+          "id": "f070df87-ebae-4e09-aab3-c0f77509625d",
+          "name": "طبيب نفسية وعصبية",
+          "slug": "psychiatrist-neurologist"
+        },
+        {
+          "id": "fe812427-0ee7-4f16-bbf2-224ed6cc26f7",
+          "name": "طبيب أسرة",
+          "slug": "family-doctor"
+        },
+        {
+          "id": "c2113488-4b6e-4dbe-90f9-9a69ddde52ce",
+          "name": "مستشفى عام",
+          "slug": "general-hospital"
+        },
+        {
+          "id": "b79843dd-c6a0-4fd9-8e93-45854a1e5116",
+          "name": "مستشفى خاص",
+          "slug": "private-hospital"
+        },
+        {
+          "id": "9e864634-b1b8-4091-83c1-038b78f78110",
+          "name": "مستشفى جامعي",
+          "slug": "university-hospital"
+        },
+        {
+          "id": "318aa964-74f8-42af-98a8-1198b50fe1df",
+          "name": "مستشفى عسكري",
+          "slug": "military-hospital"
+        },
+        {
+          "id": "b3cdd232-f08e-4a73-a7cb-b039b133a937",
+          "name": "مستشفى استثماري",
+          "slug": "investment-hospital"
+        },
+        {
+          "id": "77fef854-fa73-4c36-b82e-de508e59be61",
+          "name": "مستشفى تخصصي",
+          "slug": "specialized-hospital"
+        },
+        {
+          "id": "1ad4cbcd-5884-4a16-8496-3334d1012e5a",
+          "name": "عيادة تخصصية",
+          "slug": "specialized-clinic"
+        },
+        {
+          "id": "5dc5a4d8-bdbf-42f8-8677-f8357c037606",
+          "name": "عيادة شاملة",
+          "slug": "general-clinic"
+        },
+        {
+          "id": "f22d28df-e71c-4acd-ba23-425adde81e22",
+          "name": "مركز أشعة",
+          "slug": "radiology-center"
+        },
+        {
+          "id": "9f50a4de-5818-4f3f-b3d8-da8565238c89",
+          "name": "معمل تحاليل",
+          "slug": "medical-lab"
+        },
+        {
+          "id": "8deedb17-816f-4aff-97e8-a3e395b6bd35",
+          "name": "صيدلية",
+          "slug": "pharmacy"
+        },
+        {
+          "id": "a49f2d35-4a07-4556-9dec-0a3a7eb9b18a",
+          "name": "صيدلية 24 ساعة",
+          "slug": "24h-pharmacy"
+        },
+        {
+          "id": "38e1184b-5ef1-4ce4-8e5b-a8d23cead90d",
+          "name": "تمريض منزلي",
+          "slug": "home-nursing"
+        },
+        {
+          "id": "4707f9ee-1c86-4cc0-935c-89e0322ff46b",
+          "name": "رعاية مسنين",
+          "slug": "elderly-care"
+        }
+      ]
+    },
+    {
+      "name": "الدليلك القانوني",
+      "slug": "legal-guide",
+      "description": "ابحث عن المحامين والمحاسبين والخدمات القانونية.",
+      "subCategories": [
+        {
+          "id": "6e14cf8c-4472-4005-a30c-285ae63d961a",
+          "name": "محاسب",
+          "slug": "accountant"
+        },
+        {
+          "id": "c39b8713-fb3e-42b3-b7e3-05853f93657f",
+          "name": "محامي",
+          "slug": "lawyer"
+        }
+      ]
+    },
+    {
+      "name": "الدليلك الهندسي",
+      "slug": "engineering-guide",
+      "description": "ابحث عن المهندسين والفنيين والمكاتب الاستشارية.",
+      "subCategories": [
+        {
+          "id": "ae2b58df-05b3-4d75-9d69-a2cc98cda237",
+          "name": "مهندس مدني",
+          "slug": "civil-engineer"
+        },
+        {
+          "id": "1bf201f0-1d30-4ece-bb3f-a8b6f1bb2cf9",
+          "name": "مهندس معماري",
+          "slug": "architect"
+        },
+        {
+          "id": "7cd7948f-2dc6-4e8c-99ea-3dab2f704646",
+          "name": "مهندس كهرباء",
+          "slug": "electrical-engineer"
+        },
+        {
+          "id": "5a7f73f0-4f67-4287-be99-1c86aaf9d563",
+          "name": "مهندس ميكانيكا",
+          "slug": "mechanical-engineer"
+        },
+        {
+          "id": "847ff1bd-c2b1-4773-a44c-cb41ed1057cb",
+          "name": "مهندس ديكور",
+          "slug": "interior-designer"
+        },
+        {
+          "id": "f43086f2-d159-42db-83d5-0fc44312a425",
+          "name": "مهندس مساحة",
+          "slug": "surveyor"
+        },
+        {
+          "id": "4f2f7961-cb4f-4f6b-b413-6a4967bacfb4",
+          "name": "مهندس اتصالات",
+          "slug": "telecom-engineer"
+        },
+        {
+          "id": "6d81e581-d971-48fc-b607-254f9bb7ee17",
+          "name": "مهندس كمبيوتر",
+          "slug": "computer-engineer"
+        },
+        {
+          "id": "53d61940-7073-41d7-9400-54d4587672a7",
+          "name": "فني كهرباء",
+          "slug": "electrical-technician"
+        },
+        {
+          "id": "8780468c-c545-49b0-ba79-ec9fc04099c9",
+          "name": "فني تبريد وتكييف",
+          "slug": "ac-technician"
+        },
+        {
+          "id": "89adca01-126f-4e98-899e-cb4abecb86cb",
+          "name": "فني ميكانيكا",
+          "slug": "mechanical-technician"
+        },
+        {
+          "id": "11c9eaf1-40cb-41f5-b84b-e113616a14b0",
+          "name": "فني لحام",
+          "slug": "welder"
+        },
+        {
+          "id": "c255b9e6-e6e5-447f-bedd-937f228ad08d",
+          "name": "فني صيانة أجهزة",
+          "slug": "appliance-repair-technician"
+        },
+        {
+          "id": "6cd3eda3-2853-4db0-b44a-f23e7e535d4f",
+          "name": "فني شبكات",
+          "slug": "network-technician"
+        },
+        {
+          "id": "6ebef749-b4b9-4bb1-8e81-7dff39118b16",
+          "name": "مكتب استشارات هندسية",
+          "slug": "engineering-consulting-office"
+        }
+      ]
+    },
+    {
+      "name": "الدليلك الحرفي",
+      "slug": "craftsmen-guide",
+      "description": "ابحث عن الحرفيين والصنايعية لجميع أعمال الصيانة.",
+      "subCategories": [
+        {
+          "id": "2b7add08-6481-4302-9766-b232c293e099",
+          "name": "كهربائي",
+          "slug": "electrician"
+        },
+        {
+          "id": "a702a294-a547-426b-8530-f7a9e2147b8f",
+          "name": "سباك",
+          "slug": "plumber"
+        },
+        {
+          "id": "4ad3308f-3fd0-466a-87c0-f59bf76cda86",
+          "name": "نجار",
+          "slug": "carpenter"
+        },
+        {
+          "id": "6346287a-72a4-46e4-bdb1-d1f461d8803f",
+          "name": "حداد",
+          "slug": "blacksmith"
+        },
+        {
+          "id": "80cde734-8b9b-4a84-a540-a33de1319265",
+          "name": "نقاش ومحارة",
+          "slug": "painter-plasterer"
+        },
+        {
+          "id": "15f06770-0674-4d9c-b197-baee002444c7",
+          "name": "فني بلاط وسيراميك",
+          "slug": "tile-setter"
+        },
+        {
+          "id": "941e0f21-f47b-4154-85e4-c6f5fe3949df",
+          "name": "فني ألوميتال",
+          "slug": "aluminum-technician"
+        },
+        {
+          "id": "a93b2678-6bcb-4fd1-8d03-11669aa159ac",
+          "name": "فني غاز وتكييف",
+          "slug": "gas-ac-technician"
+        },
+        {
+          "id": "38be7049-6adf-4ba7-8ed0-dd601081126e",
+          "name": "سمكري سيارات",
+          "slug": "auto-body-technician"
+        },
+        {
+          "id": "cf498fcc-1dce-49ec-a2f8-af66712edb27",
+          "name": "سروجي",
+          "slug": "upholsterer"
+        },
+        {
+          "id": "d476de9d-9d12-46e8-ad52-87bc74d5a74e",
+          "name": "ميكانيكي موتوسيكلات",
+          "slug": "motorcycle-mechanic"
+        }
+      ]
+    },
+    {
+      "name": "الدليلك الورش",
+      "slug": "workshops-guide",
+      "description": "ابحث عن ورش الصيانة والإصلاح.",
+      "subCategories": [
+        {
+          "id": "71aa1f1a-df32-44c6-8f1c-27194bc9bd66",
+          "name": "ورشة ميكانيكا سيارات",
+          "slug": "car-mechanic-workshop"
+        },
+        {
+          "id": "2a283cdc-9df1-49c6-9b0a-a1f6c03166ab",
+          "name": "ورشة ألوميتال",
+          "slug": "aluminum-workshop"
+        },
+        {
+          "id": "f0135c05-3067-42c7-ac93-ccc8738797d7",
+          "name": "ورشة خراطة",
+          "slug": "lathe-workshop"
+        },
+        {
+          "id": "e3f877e4-b625-4983-92ab-c051cf2cde00",
+          "name": "ورشة لحام",
+          "slug": "welding-workshop"
+        },
+        {
+          "id": "3984e64d-28cb-40fe-beb3-50551ddb2c8a",
+          "name": "ورشة كهرباء سيارات",
+          "slug": "auto-electrician-workshop"
+        },
+        {
+          "id": "492d908f-1e19-4652-a8d4-52f5bd1452ee",
+          "name": "ورشة كمبيوتر",
+          "slug": "computer-repair-workshop"
+        },
+        {
+          "id": "f032265a-c36b-4c34-8b77-e6c5067d0f6e",
+          "name": "ورشة نجارة",
+          "slug": "carpentry-workshop"
+        }
+      ]
+    },
+    {
+      "name": "الدليلك المصانع",
+      "slug": "factories-guide",
+      "description": "ابحث عن المصانع في مختلف المجالات.",
+      "subCategories": [
+        {
+          "id": "9d12801e-f4e4-475f-8b09-5d42cd0542e4",
+          "name": "مصنع أغذية",
+          "slug": "food-factory"
+        },
+        {
+          "id": "9008016f-0901-4c43-a4e1-0aeb59f59dfb",
+          "name": "مصنع أدوية",
+          "slug": "pharmaceutical-factory"
+        },
+        {
+          "id": "eb847d3d-f5c9-42fa-9e09-2da0bea5d215",
+          "name": "مصنع ملابس ونسيج",
+          "slug": "textile-factory"
+        },
+        {
+          "id": "f83f60f8-0e00-4bb3-bbb5-e2a98cb5949b",
+          "name": "مصنع كيماويات",
+          "slug": "chemical-factory"
+        },
+        {
+          "id": "2598d49d-178e-4a28-899c-229c8fb3ac06",
+          "name": "مصنع أثاث",
+          "slug": "furniture-factory"
+        },
+        {
+          "id": "69acb0ef-0b75-4cda-81db-89bc9c4aa667",
+          "name": "مصنع مواد بناء",
+          "slug": "building-materials-factory"
+        },
+        {
+          "id": "525e050e-9b3f-4576-81b2-43363a6349ad",
+          "name": "مصنع بلاستيك",
+          "slug": "plastic-factory"
+        },
+        {
+          "id": "6dc9f1d4-ce5a-4eed-96e7-268f97f9a263",
+          "name": "مصنع إلكترونيات",
+          "slug": "electronics-factory"
+        }
+      ]
+    },
+    {
+      "name": "الدليلك الشركات",
+      "slug": "companies-guide",
+      "description": "ابحث عن الشركات في مختلف القطاعات.",
+      "subCategories": [
+        {
+          "id": "a3b5df1a-8841-4034-b51e-06f1d496e8dd",
+          "name": "شركة مقاولات",
+          "slug": "construction-company"
+        },
+        {
+          "id": "3c5ac9d0-26d1-470d-96aa-c23203528b53",
+          "name": "شركة اتصالات",
+          "slug": "telecom-company"
+        },
+        {
+          "id": "21d81c2d-e9d6-4b0c-9e97-934be37f05e1",
+          "name": "شركة برمجيات",
+          "slug": "software-company"
+        },
+        {
+          "id": "6249aefe-e414-4927-986e-e060d173d4e7",
+          "name": "شركة استيراد وتصدير",
+          "slug": "import-export-company"
+        },
+        {
+          "id": "398044cf-c6ec-4392-ab46-51d845ca6834",
+          "name": "شركة تسويق وإعلانات",
+          "slug": "marketing-advertising-company"
+        },
+        {
+          "id": "26f13a84-af99-4b1e-a4dd-8ebc99392f14",
+          "name": "شركة سياحة وسفر",
+          "slug": "tourism-travel-company"
+        },
+        {
+          "id": "20537d7a-f26b-4fad-9a3b-1b204463c47f",
+          "name": "شركة شحن ونقل",
+          "slug": "shipping-transport-company"
+        },
+        {
+          "id": "ca63cc3f-52e3-4c79-9b40-530f88f197e1",
+          "name": "شركة مقاولات وتشطيبات",
+          "slug": "finishing-contracting-company"
+        }
+      ]
+    },
+    {
+      "name": "الدليلك للمطاعم",
+      "slug": "restaurants-guide",
+      "description": "ابحث عن مطاعمك المفضلة.",
+      "subCategories": [
+        {
+          "id": "b33b62ce-3018-48e8-af07-abd405118b67",
+          "name": "مطعم مشويات",
+          "slug": "grill-restaurant"
+        },
+        {
+          "id": "ac86a193-b1ee-4a22-98b1-7a959766336d",
+          "name": "مطعم فول وطعمية",
+          "slug": "foul-taameya-restaurant"
+        },
+        {
+          "id": "c18932c7-b194-45f8-9a41-129c8ed8cc1f",
+          "name": "مطعم كشري",
+          "slug": "koshary-restaurant"
+        },
+        {
+          "id": "6e9b7d4f-ef2a-42ba-930c-a4b4ccbd1c49",
+          "name": "مطعم بيتزا وبرجر",
+          "slug": "pizza-burger-restaurant"
+        },
+        {
+          "id": "f3d611c7-44e2-4cac-ad19-ff8c796ba36a",
+          "name": "مطعم أسماك",
+          "slug": "seafood-restaurant"
+        },
+        {
+          "id": "f946bcbb-005f-4093-9dc0-89cea17c7662",
+          "name": "مطعم أكلات سورية",
+          "slug": "syrian-restaurant"
+        },
+        {
+          "id": "3a75e560-2523-4039-8323-d56f74d27d63",
+          "name": "مطعم أكلات شرقية أو غربية",
+          "slug": "oriental-western-restaurant"
+        },
+        {
+          "id": "e209619a-512f-4576-937d-7402472b7110",
+          "name": "محل حلويات",
+          "slug": "sweets-shop"
+        }
+      ]
+    },
+    {
+      "name": "الدليلك الكافيهات",
+      "slug": "cafes-guide",
+      "description": "ابحث عن مكان هادئ للاستمتاع بوقتك.",
+      "subCategories": [
+        {
+          "id": "fe6440b9-ed6d-4805-8e84-d28315e876c0",
+          "name": "قهوة بلدي",
+          "slug": "traditional-cafe"
+        },
+        {
+          "id": "c37852e4-388b-4946-9235-6aac3b3f70ab",
+          "name": "كافيه شبابي",
+          "slug": "youth-cafe"
+        },
+        {
+          "id": "4a8adeab-03cc-4784-bfb4-7b3b008dbff4",
+          "name": "كافيه عائلي",
+          "slug": "family-cafe"
+        },
+        {
+          "id": "1103d67d-8f7e-428d-88ea-840918ed34b3",
+          "name": "كافيه بنات",
+          "slug": "ladies-cafe"
+        },
+        {
+          "id": "4fd4937d-0e08-4479-937f-c71ee5457f36",
+          "name": "كافتريا",
+          "slug": "cafeteria"
+        },
+        {
+          "id": "98702fba-2c98-4312-8c74-b1b6dfcf01fa",
+          "name": "كافيه إنترنت",
+          "slug": "internet-cafe"
+        },
+        {
+          "id": "cf24b1ee-6959-4ada-85e8-3de32f16665c",
+          "name": "كافيه ومطعم",
+          "slug": "cafe-restaurant"
+        }
+      ]
+    },
+    {
+      "name": "الدليلك للمحلات",
+      "slug": "shops-guide",
+      "description": "ابحث عن المحلات والأسواق التجارية.",
+      "subCategories": [
+        {
+          "id": "bd7f4b19-ecca-4d06-933e-ac173d8a1afa",
+          "name": "سوبر ماركت وجملة",
+          "slug": "supermarket-wholesale"
+        },
+        {
+          "id": "2b7fd20c-0a53-4472-b8c4-853878b09313",
+          "name": "محل خضار وفاكهة",
+          "slug": "grocery-store"
+        },
+        {
+          "id": "d9412376-5312-445b-9b79-371874f1c277",
+          "name": "محل ملابس وأحذية",
+          "slug": "clothing-shoes-store"
+        },
+        {
+          "id": "643de3d8-89e9-4b0a-9723-e47943c9c6d8",
+          "name": "محل ذهب ومجوهرات",
+          "slug": "jewelry-store"
+        },
+        {
+          "id": "a0a535d7-5925-431c-9686-b72b22a40010",
+          "name": "محل أجهزة إلكترونية وكهربائية",
+          "slug": "electronics-appliances-store"
+        },
+        {
+          "id": "bbc1eb79-586d-4c1d-bd6f-39a78a90d8d8",
+          "name": "محل أثاث ومستلزمات منزل",
+          "slug": "furniture-home-goods-store"
+        },
+        {
+          "id": "78030826-0f47-4059-9e23-1d8687abc230",
+          "name": "محل هدايا وتذكارات",
+          "slug": "gift-shop"
+        },
+        {
+          "id": "eb183036-e36d-4882-8439-989a78d413ac",
+          "name": "محل قطع غيار سيارات",
+          "slug": "auto-parts-store"
+        },
+        {
+          "id": "fe5a8895-d1f6-4a4a-a424-557b179b9d33",
+          "name": "محل مواد بناء وأدوات صحية",
+          "slug": "building-materials-store"
+        },
+        {
+          "id": "bed8223e-41d1-46f1-9c57-f94c8eb6961d",
+          "name": "مكتبة",
+          "slug": "bookstore"
+        },
+        {
+          "id": "f6621b36-3e24-43c5-a459-2ee062b6b3b6",
+          "name": "محل زهور ونباتات",
+          "slug": "flower-shop"
+        },
+        {
+          "id": "b80e28c6-2103-4e82-b1e1-901ead46d186",
+          "name": "محل أجهزة طبية",
+          "slug": "medical-equipment-store"
+        },
+        {
+          "id": "2950a441-7201-45b6-aaa4-673aa266a41b",
+          "name": "صالون حلاقة وتجميل",
+          "slug": "barber-beauty-salon"
+        }
+      ]
+    },
+    {
+      "name": "الدليل العقاري",
+      "slug": "real-estate-guide",
+      "description": "ابحث عن شركات ومكاتب التسويق والمقاولات العقارية.",
+      "subCategories": [
+        {
+          "id": "e6a345b1-12c8-4f7d-8a9e-c9b2f3d1e4a5",
+          "name": "شركة تسويق عقاري",
+          "slug": "real-estate-marketing-company"
+        },
+        {
+          "id": "b3d9c7a2-5e8f-4b1a-9c6d-e4a5b1c8d7e9",
+          "name": "شركة تطوير عقاري",
+          "slug": "real-estate-development-company"
+        },
+        {
+          "id": "c9b2f3d1-e4a5-4f7d-8a9e-e6a345b112c8",
+          "name": "مقاول بناء",
+          "slug": "building-contractor"
+        },
+        {
+          "id": "a5e8f4b1-a9c6-4d1e-8c7d-b3d9c7a25e8f",
+          "name": "شركة تشطيبات",
+          "slug": "finishing-company"
+        },
+        {
+          "id": "d1e4a5b1-c8d7-4e9f-8b3d-9c7a25e8f4b1",
+          "name": "سمسار عقارات",
+          "slug": "real-estate-broker"
+        }
+      ]
+    },
+    {
+      "name": "الدليل للسيارات",
+      "slug": "automotive-guide",
+      "description": "ابحث عن معارض السيارات ومراكز الخدمة وكل ما يخص سيارتك.",
+      "subCategories": [
+        {
+          "id": "f7b1e2a3-4c5d-6e7f-8a9b-0c1d2e3f4a5b",
+          "name": "معرض سيارات",
+          "slug": "car-showroom"
+        },
+        {
+          "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+          "name": "مركز خدمة سيارات",
+          "slug": "car-service-center"
+        },
+        {
+          "id": "b4c5d6e7-f8a9-b0c1-d2e3-f4a5b6c7d8e9",
+          "name": "محل كاوتش وبطاريات",
+          "slug": "tires-batteries-shop"
+        },
+        {
+          "id": "d9e8f7a6-b5c4-d3e2-f1a0-b9c8d7e6f5a4",
+          "name": "مغسلة سيارات",
+          "slug": "car-wash"
+        },
+        {
+          "id": "e3f2a1b0-c9d8-e7f6-a5b4-c3d2e1f0a9b8",
+          "name": "مكتب تأجير سيارات",
+          "slug": "car-rental-office"
+        }
+      ]
+    },
+    {
+      "name": "الدليل للمصالح الحكوميه",
+      "slug": "government-services-guide",
+      "description": "ابحث عن المصالح والهيئات الحكومية والخدمية.",
+      "subCategories": [
+        {
+          "id": "a0b1c2d3-e4f5-a6b7-c8d9-e0f1a2b3c4d5",
+          "name": "مكتب بريد",
+          "slug": "post-office"
+        },
+        {
+          "id": "b1c2d3e4-f5a6-b7c8-d9e0-f1a2b3c4d5e6",
+          "name": "سجل مدني",
+          "slug": "civil-registry"
+        },
+        {
+          "id": "c2d3e4f5-a6b7-c8d9-e0f1-a2b3c4d5e6f7",
+          "name": "شهر عقاري",
+          "slug": "real-estate-registry"
+        },
+        {
+          "id": "d3e4f5a6-b7c8-d9e0-f1a2-b3c4d5e6f7a8",
+          "name": "وحدة مرور",
+          "slug": "traffic-unit"
+        },
+        {
+          "id": "e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7a8b9",
+          "name": "مكتب تأمينات اجتماعية",
+          "slug": "social-insurance-office"
+        },
+        {
+          "id": "f5a6b7c8-d9e0-f1a2-b3c4-d5e6f7a8b9c0",
+          "name": "مأمورية ضرائب",
+          "slug": "tax-office"
+        },
+        {
+          "id": "a6b7c8d9-e0f1-a2b3-c4d5-e6f7a8b9c0d1",
+          "name": "قسم شرطة",
+          "slug": "police-station"
+        },
+        {
+          "id": "b7c8d9e0-f1a2-b3c4-d5e6-f7a8b9c0d1e2",
+          "name": "مكتب صحة",
+          "slug": "health-office"
+        },
+        {
+          "id": "c8d9e0f1-a2b3-c4d5-e6f7-a8b9c0d1e2f3",
+          "name": "شركة كهرباء",
+          "slug": "electricity-company"
+        },
+        {
+          "id": "d9e0f1a2-b3c4-d5e6-f7a8-b9c0d1e2f3a4",
+          "name": "شركة مياه",
+          "slug": "water-company"
+        },
+        {
+          "id": "e0f1a2b3-c4d5-e6f7-a8b9-c0d1e2f3a4b5",
+          "name": "شركة غاز",
+          "slug": "gas-company"
+        }
+      ]
+    }
+  ]
+}

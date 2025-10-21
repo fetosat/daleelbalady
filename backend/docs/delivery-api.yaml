@@ -1,0 +1,511 @@
+openapi: 3.0.0
+info:
+  title: Daleel Balady - Delivery API
+  description: RESTful API documentation for Delivery System
+  version: 1.0.0
+  contact:
+    name: Daleel Balady Team
+    email: support@daleelbalady.com
+
+servers:
+  - url: https://api.daleelbalady.com
+    description: Production server
+  - url: http://localhost:5000
+    description: Development server
+
+tags:
+  - name: Pricing
+    description: Price calculation endpoints
+  - name: Requests
+    description: Delivery request management
+  - name: Offers
+    description: Delivery offer management
+  - name: Trips
+    description: Trip management and tracking
+  - name: Drivers
+    description: Driver-specific endpoints
+  - name: Payments
+    description: Payment and webhook endpoints
+
+paths:
+  /api/delivery/calculate-price:
+    post:
+      tags:
+        - Pricing
+      summary: Calculate delivery price
+      description: Calculate the estimated price for a delivery based on distance, priority, and other factors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - pickupLocation
+                - deliveryLocation
+              properties:
+                pickupLocation:
+                  type: string
+                  description: JSON string of pickup coordinates
+                  example: '{"latitude": 30.0444, "longitude": 31.2357}'
+                deliveryLocation:
+                  type: string
+                  description: JSON string of delivery coordinates
+                  example: '{"latitude": 30.0500, "longitude": 31.2400}'
+                requestType:
+                  type: string
+                  enum: [ANY_STORE, SPECIFIC_STORE, MULTIPLE_STORES]
+                  default: ANY_STORE
+                priority:
+                  type: string
+                  enum: [NORMAL, HIGH, URGENT]
+                  default: NORMAL
+                itemsCount:
+                  type: integer
+                  minimum: 1
+                  default: 1
+      responses:
+        '200':
+          description: Price calculated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      distance:
+                        type: number
+                        format: float
+                      basePrice:
+                        type: number
+                      distancePrice:
+                        type: number
+                      totalPrice:
+                        type: number
+                      estimatedTime:
+                        type: integer
+                        description: Estimated time in minutes
+                      breakdown:
+                        type: object
+        '400':
+          description: Bad request
+
+  /api/delivery/nearby-drivers:
+    get:
+      tags:
+        - Drivers
+      summary: Get nearby delivery drivers
+      description: Find available drivers within a specified radius
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: latitude
+          required: true
+          schema:
+            type: number
+          description: Current latitude
+        - in: query
+          name: longitude
+          required: true
+          schema:
+            type: number
+          description: Current longitude
+        - in: query
+          name: radius
+          schema:
+            type: number
+            default: 10
+          description: Search radius in kilometers
+      responses:
+        '200':
+          description: List of nearby drivers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Driver'
+                  count:
+                    type: integer
+
+  /api/delivery/requests:
+    post:
+      tags:
+        - Requests
+      summary: Create a new delivery request
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryRequestCreate'
+      responses:
+        '201':
+          description: Request created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/DeliveryRequest'
+
+  /api/delivery/requests/my:
+    get:
+      tags:
+        - Requests
+      summary: Get my delivery requests
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: List of requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeliveryRequest'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+  /api/delivery/requests/{deliveryRequestId}/offers:
+    post:
+      tags:
+        - Offers
+      summary: Submit a delivery offer
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: deliveryRequestId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferCreate'
+      responses:
+        '201':
+          description: Offer submitted successfully
+
+  /api/delivery/trips/{deliveryTripId}:
+    get:
+      tags:
+        - Trips
+      summary: Get trip details
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: deliveryTripId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Trip details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/DeliveryTrip'
+
+  /api/delivery/trips/{deliveryTripId}/status:
+    put:
+      tags:
+        - Trips
+      summary: Update trip status
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: deliveryTripId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - newStatus
+              properties:
+                newStatus:
+                  type: string
+                  enum:
+                    - HEADING_TO_PICKUP
+                    - AT_PICKUP_LOCATION
+                    - SHOPPING
+                    - RECEIPT_UPLOADED
+                    - HEADING_TO_DELIVERY
+                    - AT_DELIVERY_LOCATION
+                    - DELIVERED
+                    - COMPLETED
+                updateMessage:
+                  type: string
+                currentLocation:
+                  type: object
+      responses:
+        '200':
+          description: Status updated
+
+  /api/delivery/my-trips:
+    get:
+      tags:
+        - Drivers
+      summary: Get driver's trips
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of trips
+
+  /api/delivery/my-stats:
+    get:
+      tags:
+        - Drivers
+      summary: Get driver statistics
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Driver statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      totalTrips:
+                        type: integer
+                      completedTrips:
+                        type: integer
+                      cancelledTrips:
+                        type: integer
+                      totalEarnings:
+                        type: number
+                      averageRating:
+                        type: number
+                      completionRate:
+                        type: string
+
+  /api/delivery/webhooks/payment:
+    post:
+      tags:
+        - Payments
+      summary: Payment webhook from Paymob
+      description: Receives payment notifications from Paymob payment gateway
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                obj:
+                  type: object
+                transaction_id:
+                  type: string
+                amount_cents:
+                  type: integer
+                success:
+                  type: boolean
+                pending:
+                  type: boolean
+                order:
+                  type: object
+                  properties:
+                    merchant_order_id:
+                      type: string
+      responses:
+        '200':
+          description: Webhook processed
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    DeliveryRequestCreate:
+      type: object
+      required:
+        - requestTitle
+        - items
+        - deliveryLocation
+      properties:
+        requestTitle:
+          type: string
+        requestDescription:
+          type: string
+        requestType:
+          type: string
+          enum: [ANY_STORE, SPECIFIC_STORE, MULTIPLE_STORES]
+        items:
+          type: array
+          items:
+            type: object
+        pickupLocation:
+          type: string
+        deliveryLocation:
+          type: string
+        customerBudget:
+          type: number
+        priority:
+          type: string
+          enum: [NORMAL, HIGH, URGENT]
+        customerNotes:
+          type: string
+
+    DeliveryRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        requestTitle:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    Driver:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        profilePic:
+          type: string
+        rating:
+          type: number
+        completedDeliveries:
+          type: integer
+        distance:
+          type: number
+        estimatedArrival:
+          type: integer
+
+    OfferCreate:
+      type: object
+      required:
+        - offerPrice
+      properties:
+        offerPrice:
+          type: number
+        estimatedPickupTime:
+          type: string
+          format: date-time
+        estimatedDeliveryTime:
+          type: string
+          format: date-time
+        offerMessage:
+          type: string
+        deliveryMethod:
+          type: string
+          enum: [MOTORCYCLE, CAR, BICYCLE]
+
+    DeliveryTrip:
+      type: object
+      properties:
+        id:
+          type: string
+        deliveryRequestId:
+          type: string
+        deliveryUserId:
+          type: string
+        customerId:
+          type: string
+        tripStatus:
+          type: string
+        deliveryFee:
+          type: number
+        tripStartedAt:
+          type: string
+          format: date-time
+
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalPages:
+          type: integer
+
